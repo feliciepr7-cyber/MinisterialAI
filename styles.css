@@ -1,0 +1,467 @@
+/* Variables CSS */
+:root {
+  /* Colores primarios */
+  --primary-500: #2D5F9A;
+  --primary-700: #1E426B;
+  --primary-100: #EAF2FA;
+
+  /* Colores neutros */
+  --neutral-900: #1C2026;
+  --neutral-600: #5A6472;
+  --neutral-200: #E4E7EB;
+  --neutral-100: #FFFFFF;
+  --neutral-50: #F8F9FA;
+
+  /* Colores semánticos */
+  --success: #15803D;
+  --warning: #B45309;
+  --error: #B91C1C;
+
+  /* Tipografía */
+  --font-heading: 'Lora', serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Espaciado */
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+  --space-xxxl: 64px;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 4px rgba(28, 32, 38, 0.04);
+  --shadow-md: 0 4px 12px rgba(28, 32, 38, 0.08);
+
+  /* Bordes */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+
+  /* Transiciones */
+  --transition-fast: 200ms ease-out;
+  --transition-smooth: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset y configuración base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--neutral-900);
+  background-color: var(--neutral-50);
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  background-color: var(--neutral-100);
+  border-bottom: 1px solid var(--neutral-200);
+  padding: var(--space-lg) var(--space-md);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.heart-icon {
+  font-size: 32px;
+  color: var(--primary-500);
+}
+
+.title-section h1 {
+  font-size: 24px;
+  margin: 0;
+  color: var(--neutral-900);
+  font-family: var(--font-heading);
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--neutral-600);
+  font-size: 14px;
+}
+
+.language-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 8px 16px;
+  height: auto;
+  font-size: 14px;
+  background-color: var(--neutral-200);
+  color: var(--neutral-900);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.language-btn:hover {
+  background-color: var(--neutral-600);
+  color: var(--neutral-100);
+}
+
+/* Main Container */
+.main-container {
+  padding: var(--space-lg) var(--space-md);
+  min-height: calc(100vh - 100px);
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: var(--space-lg);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Chat Container */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--neutral-100);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  height: 600px;
+}
+
+.messages-area {
+  flex: 1;
+  padding: var(--space-lg);
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.message {
+  margin-bottom: var(--space-lg);
+  display: flex;
+  justify-content: flex-start;
+}
+
+.message.user-message {
+  justify-content: flex-end;
+}
+
+.message-content {
+  max-width: 70%;
+  background-color: var(--neutral-100);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--neutral-200);
+}
+
+.user-message .message-content {
+  background-color: var(--primary-100);
+  border: none;
+}
+
+.message-time {
+  font-size: 12px;
+  color: var(--neutral-600);
+  margin-top: 8px;
+  text-align: right;
+}
+
+/* Input Area */
+.input-area {
+  border-top: 1px solid var(--neutral-200);
+  padding: var(--space-lg);
+  background-color: var(--neutral-50);
+}
+
+.input-container {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-end;
+}
+
+#messageInput {
+  flex: 1;
+  min-height: 56px;
+  max-height: 120px;
+  padding: var(--space-md);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 16px;
+  resize: none;
+  outline: none;
+  background-color: var(--neutral-100);
+  transition: var(--transition-fast);
+}
+
+#messageInput:focus {
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(45, 95, 154, 0.1);
+}
+
+.send-btn {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: var(--primary-500);
+  color: var(--neutral-100);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-smooth);
+}
+
+.send-btn:hover:not(:disabled) {
+  background-color: var(--primary-700);
+  transform: translateY(-2px);
+}
+
+.send-btn:disabled {
+  background-color: var(--neutral-200);
+  color: var(--neutral-600);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Ministry Card */
+.ministry-card {
+  background-color: var(--neutral-100);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-xl);
+  height: fit-content;
+  position: sticky;
+  top: var(--space-lg);
+}
+
+.ministry-title {
+  margin-bottom: var(--space-lg);
+  color: var(--primary-500);
+  font-family: var(--font-heading);
+  font-size: 20px;
+}
+
+.ministry-name-section {
+  margin-bottom: var(--space-lg);
+}
+
+.ministry-name {
+  font-size: 18px;
+  margin-bottom: var(--space-sm);
+  color: var(--neutral-900);
+  font-family: var(--font-body);
+}
+
+.church-name {
+  color: var(--neutral-600);
+  font-size: 14px;
+  margin-bottom: var(--space-md);
+}
+
+.ministry-details {
+  margin-bottom: var(--space-lg);
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.detail-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+.detail-text {
+  font-size: 14px;
+  color: var(--neutral-900);
+}
+
+.pastors-section,
+.services-section {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--neutral-200);
+}
+
+.pastors-section h4,
+.services-section h4 {
+  font-size: 16px;
+  margin-bottom: var(--space-sm);
+  font-family: var(--font-body);
+}
+
+.pastors-section p {
+  color: var(--neutral-600);
+  font-size: 14px;
+}
+
+.service-list {
+  font-size: 14px;
+  color: var(--neutral-900);
+}
+
+.service-list div {
+  margin-bottom: 4px;
+}
+
+.donate-btn {
+  width: 100%;
+  height: 48px;
+  padding: 16px 24px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  background-color: var(--primary-500);
+  color: var(--neutral-100);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  margin-top: var(--space-lg);
+}
+
+.donate-btn:hover {
+  background-color: var(--primary-700);
+  transform: translateY(-2px);
+}
+
+.website-link {
+  margin-top: var(--space-lg);
+  text-align: center;
+}
+
+.website-link a {
+  font-size: 14px;
+  color: var(--primary-500);
+  text-decoration: underline;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    padding: 0 var(--space-sm);
+  }
+  
+  .ministry-card {
+    order: -1;
+  }
+  
+  .main-title {
+    font-size: 20px !important;
+  }
+  
+  .subtitle {
+    font-size: 12px;
+  }
+  
+  .container {
+    padding: 0 var(--space-sm);
+  }
+  
+  .message-content {
+    max-width: 85%;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    gap: var(--space-sm);
+    align-items: flex-start;
+  }
+  
+  .language-btn {
+    align-self: flex-end;
+  }
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--neutral-200);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neutral-600);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-700);
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Estados de carga */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading .send-btn {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}

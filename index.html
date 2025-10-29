@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ministerial AI - Asistente Bíblico del Ministerio</title>
+    <meta name="description" content="Ministerial AI - Asistente bíblico y administrativo del ministerio del Rev. Frankie Felicie" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo-section">
+            <div class="heart-icon">🕊️</div>
+            <div class="title-section">
+              <h1 class="main-title">Ministerial AI</h1>
+              <p class="subtitle">Asistente Bíblico y Administrativo del Ministerio</p>
+            </div>
+          </div>
+          <button id="languageToggle" class="language-btn">
+            <span class="globe-icon">🌐</span>
+            <span id="languageText">English</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+      <div class="container">
+        <div class="content-grid">
+          <!-- Chat Area -->
+          <div class="chat-container">
+            <div class="messages-area" id="messagesArea">
+              <div class="message ai-message fade-in">
+                <div class="message-content">
+                  <p>¡Hola! Soy Ministerial AI, tu asistente del ministerio. ¿En qué puedo ayudarte hoy?</p>
+                  <div class="message-time">00:00</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+              <div class="input-container">
+                <textarea 
+                  id="messageInput" 
+                  placeholder="Escribe tu pregunta aquí..."
+                  rows="1"
+                ></textarea>
+                <button id="sendButton" class="send-btn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ministry Info Sidebar -->
+          <div class="ministry-card fade-in">
+            <h3 class="ministry-title">Información del Ministerio</h3>
+            
+            <div class="ministry-name-section">
+              <h4 class="ministry-name">Frankie Felicie Ministries</h4>
+              <p class="church-name">Iglesia de Dios Pentecostal Luz en Medio de las Tinieblas Inc.</p>
+            </div>
+
+            <div class="ministry-details">
+              <div class="detail-item">
+                <div class="detail-icon">📍</div>
+                <div class="detail-text">2702 New Hampshire St, Lake Station, IN 46405</div>
+              </div>
+              
+              <div class="detail-item">
+                <div class="detail-icon">📞</div>
+                <div class="detail-text">(219) 246-5775</div>
+              </div>
+              
+              <div class="detail-item">
+                <div class="detail-icon">📧</div>
+                <div class="detail-text">info@lakestationchurch.com</div>
+              </div>
+            </div>
+
+            <div class="pastors-section">
+              <h4>Pastores</h4>
+              <p>Rev. Frankie & Lydia Felicie</p>
+            </div>
+
+            <div class="services-section">
+              <h4>Servicios</h4>
+              <div class="service-list">
+                <div>• Domingos: 10:00 AM y 6:00 PM</div>
+                <div>• Miércoles: Estudio bíblico 7:00 PM</div>
+                <div>• Sábados: Oración 9:00 AM</div>
+              </div>
+            </div>
+
+            <button class="donate-btn" onclick="window.open('https://frankiefelicie.net/donate.html', '_blank')">
+              💝 Donar
+            </button>
+
+            <div class="website-link">
+              <a href="https://frankiefelicie.net" target="_blank" rel="noopener noreferrer">
+                🌐 Sitio Web
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

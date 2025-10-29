@@ -1,0 +1,13 @@
+{
+  "name": "ministerial-ai",
+  "version": "1.0.0",
+  "description": "Ministerial AI - Asistente Bíblico y Administrativo del Ministerio",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "echo 'Build completed'",
+    "preview": "node server.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
