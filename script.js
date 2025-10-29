@@ -87,6 +87,41 @@ class MinisterialAI {
         version: "RVR1960",
         category: "old_testament",
         themes: ["valentía", "fortaleza", "ayuda", "justicia"]
+      },
+      {
+        reference: "Salmo 91:2",
+        text: "Diré yo a Jehová: Esperanza mía, y castillo mío; mi Dios, en quien confiaré.",
+        version: "RVR1960",
+        category: "old_testament",
+        themes: ["confianza", "esperanza", "protección", "refugio"]
+      },
+      {
+        reference: "Jeremías 29:11",
+        text: "Porque yo sé los pensamientos que tengo acerca de vosotros, dice Jehová, pensamientos de paz, y no de mal, para daros el fin que esperáis.",
+        version: "RVR1960",
+        category: "old_testament",
+        themes: ["planes", "esperanza", "futuro", "propósito"]
+      },
+      {
+        reference: "Hebreos 11:1",
+        text: "Es, pues, la fe la certeza de lo que se espera, la convicción de lo que no se ve.",
+        version: "RVR1960",
+        category: "new_testament",
+        themes: ["fe", "esperanza", "certeza", "convicción"]
+      },
+      {
+        reference: "2 Timoteo 1:7",
+        text: "Porque Dios no nos ha dado espíritu de cobardía, sino de poder, amor y dominio propio.",
+        version: "RVR1960",
+        category: "new_testament",
+        themes: ["poder", "amor", "dominio", "valentía"]
+      },
+      {
+        reference: "Santiago 1:5",
+        text: "Y si alguno de vosotros tiene falta de sabiduría, pídala a Dios, el cual da a todos abundantemente y sin reproche, y le será dada.",
+        version: "RVR1960",
+        category: "new_testament",
+        themes: ["sabiduría", "oración", "confianza", "abundancia"]
       }
     ];
   }
@@ -323,15 +358,33 @@ class MinisterialAI {
   }
 
   searchScripture(query) {
+    const cleanQuery = query.toLowerCase().trim();
+    
+    // Patrón para extraer referencia bíblica completa (ej: "Juan 3:16", "John 3:16")
+    const scripturePattern = /\b([1-3]?\s*[A-Za-záéíóúñ]+\s+\d+(?::\d+)?)\b/;
+    const match = cleanQuery.match(scripturePattern);
+    
+    if (match) {
+      const reference = match[1].trim();
+      // Normalizar la referencia (quitar espacios extra)
+      const normalizedRef = reference.replace(/\s+/g, ' ');
+      
+      // Buscar en la base de datos
+      for (const scripture of this.scriptureDatabase) {
+        const dbRef = scripture.reference.toLowerCase();
+        if (dbRef === normalizedRef.toLowerCase() || 
+            dbRef.includes(normalizedRef.toLowerCase()) ||
+            normalizedRef.toLowerCase().includes(dbRef)) {
+          return scripture;
+        }
+      }
+    }
+    
+    // Si no encuentra referencia exacta, buscar por palabras clave
     const keywords = this.extractKeywords(query);
     
-    // Buscar por referencia directa
+    // Buscar por contenido
     for (const scripture of this.scriptureDatabase) {
-      if (scripture.reference.toLowerCase().includes(keywords.join(' '))) {
-        return scripture;
-      }
-      
-      // Buscar por contenido
       if (scripture.text.toLowerCase().includes(keywords.join(' '))) {
         return scripture;
       }
@@ -454,9 +507,13 @@ ${this.translations.ministryServices[this.currentLanguage]}
   }
 
   isScriptureQuery(message) {
-    const scriptureKeywords = ['biblia', 'escritura', 'versículo', 'biblical', 'scripture', 'passage'];
+    const scriptureKeywords = ['biblia', 'escritura', 'versículo', 'biblical', 'scripture', 'passage', 'dice', 'dice que', 'que dice', 'versículo'];
+    // Detectar patrones de referencia bíblica como "Juan 3:16", "John 3:16", "Romanos 8:28", etc.
+    const scripturePattern = /\b([1-3]?\s*[A-Za-záéíóúñ]+\s+\d+(?::\d+)?)\b/;
     return scriptureKeywords.some(keyword => message.includes(keyword)) ||
-           /(\d+\s*[a-z]+\s*\d+)/.test(message); // Formato: Juan 3:16
+           scripturePattern.test(message) ||
+           // También detectar si el mensaje es solo una referencia bíblica
+           (/^[1-3]?\s*[A-Za-záéíóúñ]+\s+\d+(?::\d+)?$/.test(message.trim()));
   }
 
   isMinistryInfoQuery(message) {
