@@ -617,21 +617,20 @@ body {
     font-size: 10px;
   }
   
-  /* Chat optimizado para móviles medianos */
+  /* Chat optimizado para móviles medianos - PRIORIDAD MÁXIMA */
   .chat-container {
-    height: calc(100vh - 160px);
-    max-height: 450px;
+    height: calc(100vh - 140px);
+    max-height: none;
     min-height: 300px;
-    border-radius: 0;
-  }
-  
-  .chat-container {
+    position: relative;
+    z-index: 10;
     margin: 0 calc(var(--space-xs) * -1);
     border-radius: var(--radius-md);
   }
   
   .messages-area {
     padding: var(--space-xs);
+    padding-bottom: 120px; /* Espacio extra para input */
   }
   
   .message-content {
@@ -644,13 +643,23 @@ body {
   }
   
   .input-area {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     padding: var(--space-sm) var(--space-xs);
+    background-color: var(--neutral-100);
+    border-top: 1px solid var(--neutral-200);
+    z-index: 100;
+    margin: 0;
     border-radius: 0;
-    margin: 0 calc(var(--space-xs) * -1);
   }
   
   .input-container {
     gap: var(--space-xs);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-xs);
   }
   
   #messageInput {
@@ -663,34 +672,9 @@ body {
     height: 44px;
   }
   
-  /* Ministry card compacto */
+  /* Ministry card oculto en móviles medianos para dar prioridad al chat */
   .ministry-card {
-    padding: var(--space-md);
-    margin-bottom: var(--space-sm);
-  }
-  
-  .ministry-title {
-    font-size: 18px;
-  }
-  
-  .ministry-name {
-    font-size: 16px;
-  }
-  
-  .detail-item {
-    margin-bottom: var(--space-sm);
-  }
-  
-  .detail-text {
-    font-size: 13px;
-  }
-  
-  .donate-btn {
-    height: 44px;
-    font-size: 15px;
-    /* Mejoras táctiles */
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
+    display: none;
   }
   
   /* Mejoras táctiles para el chat */
@@ -725,9 +709,11 @@ body {
   }
   
   .chat-container {
-    height: calc(100vh - 140px);
-    max-height: 400px;
-    min-height: 280px;
+    height: calc(100vh - 120px);
+    max-height: none;
+    min-height: 250px;
+    position: relative;
+    z-index: 10;
   }
   
   .header-content {
@@ -778,6 +764,7 @@ body {
   
   .messages-area {
     padding: var(--space-xs);
+    padding-bottom: 100px; /* Espacio extra para input */
   }
   
   .message-content {
@@ -787,11 +774,18 @@ body {
   }
   
   .input-area {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     padding: var(--space-xs);
+    background-color: var(--neutral-100);
+    border-top: 1px solid var(--neutral-200);
+    z-index: 100;
   }
   
   .ministry-card {
-    padding: var(--space-sm);
+    display: none; /* Completamente oculto en móviles pequeños */
   }
   
   .detail-icon {
