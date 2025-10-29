@@ -196,6 +196,21 @@ class MinisterialAIEnhanced {
     const messageInput = document.getElementById('messageInput');
     const sendButton = document.getElementById('sendButton');
 
+    // Verificar que los elementos existan
+    if (!languageToggle) {
+      console.error('languageToggle not found');
+      return;
+    }
+    if (!messageInput) {
+      console.error('messageInput not found');
+      return;
+    }
+    if (!sendButton) {
+      console.error('sendButton not found');
+      return;
+    }
+
+    console.log('Binding events - all elements found');
     languageToggle.addEventListener('click', () => this.toggleLanguage());
     messageInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
@@ -203,7 +218,10 @@ class MinisterialAIEnhanced {
         this.sendMessage();
       }
     });
-    sendButton.addEventListener('click', () => this.sendMessage());
+    sendButton.addEventListener('click', () => {
+      console.log('Send button clicked');
+      this.sendMessage();
+    });
     
     // Auto-resize textarea
     messageInput.addEventListener('input', () => {
@@ -833,9 +851,12 @@ ${this.translations.ministryServices[this.currentLanguage]}
 }
 
 // Inicializar la aplicación cuando el DOM esté listo
-document.addEventListener('DOMDOMLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM Content Loaded - Initializing Ministerial AI');
+  
   // Reemplazar MinisterialAI con MinisterialAIEnhanced
   window.ministerialAI = new MinisterialAIEnhanced();
+  console.log('MinisterialAIEnhanced initialized successfully');
   
   // Configurar API Key (en producción, esto debería ser seguro)
   // window.ministerialAI.setOpenAIKey('tu-api-key-de-openai-aqui');
