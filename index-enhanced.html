@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministerio AI Enhanced - Demostración</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <span class="heart-icon">🕊️</span>
+                    <div class="title-section">
+                        <h1 class="main-title">Ministerio AI Enhanced</h1>
+                        <p class="subtitle">Asistente Bíblico y Administrativo del Ministerio</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button id="languageToggle" class="language-btn">
+                        <span id="languageText">English</span>
+                    </button>
+                    <a href="https://frankiefelicie.net" class="home-btn">
+                        <span class="home-icon">🏠</span>
+                        <span>Home</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="content-grid">
+            <section class="chat-section">
+                <div class="chat-container">
+                    <div id="messagesArea" class="messages-area">
+                        <div class="message ai-message">
+                            <div class="message-content">
+                                <div class="message-text">
+                                    ¡Hola! Soy Ministerio AI Enhanced, tu asistente del ministerio con capacidades avanzadas de IA. ¿En qué puedo ayudarte hoy?
+                                </div>
+                                <div class="message-time">12:00</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-area">
+                        <div class="input-container">
+                            <textarea 
+                                id="messageInput" 
+                                placeholder="Escribe tu pregunta aquí..."
+                                rows="1"
+                            ></textarea>
+                            <button id="sendButton" class="send-btn">
+                                <span>➤</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="sidebar">
+                <div class="ministry-card">
+                    <h3 class="ministry-title">Información del Ministerio</h3>
+                    
+                    <div class="ministry-name-section">
+                        <h4 class="ministry-name">Frankie Felicie Ministries</h4>
+                        <p class="church-name">Iglesia de Dios Pentecostal Luz en Medio de las Tinieblas Inc.</p>
+                    </div>
+
+                    <div class="ministry-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">📍</span>
+                            <span class="detail-text">2702 New Hampshire St, Lake Station, IN 46405</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📞</span>
+                            <span class="detail-text">(219) 246-5775</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📧</span>
+                            <span class="detail-text">info@frankiefelicie.net</span>
+                        </div>
+                    </div>
+
+                    <div class="pastors-section">
+                        <h4>Pastores:</h4>
+                        <p>Rev. Frankie & Lydia Felicie</p>
+                    </div>
+
+                    <div class="services-section">
+                        <h4>Servicios:</h4>
+                        <div class="service-list">
+                            <div>• Domingos: 10:00 AM y 6:00 PM</div>
+                            <div>• Miércoles: Estudio bíblico 7:00 PM</div>
+                            <div>• Sábados: Oración 9:00 AM</div>
+                        </div>
+                    </div>
+
+                    <button class="donate-btn" onclick="window.open('https://frankiefelicie.net/donate.html', '_blank')">
+                        Donaciones
+                    </button>
+
+                    <div class="website-link">
+                        <a href="https://frankiefelicie.net" target="_blank">Sitio Web Oficial</a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="openai-config.js"></script>
+    <script src="script-enhanced.js"></script>
+    
+    <script>
+        // Configuración de la API Key (solo para desarrollo)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar el gestor de API keys
+            const apiKeyManager = new APIKeyManager();
+            
+            // Verificar si ya hay una API key guardada
+            if (!apiKeyManager.hasSavedKey()) {
+                // Mostrar modal para configurar API key después de 2 segundos
+                setTimeout(() => {
+                    apiKeyManager.showAPIKeySetup((key) => {
+                        console.log('API Key configurada');
+                        // Configurar la API key en el sistema
+                        if (window.ministerialAI) {
+                            window.ministerialAI.setOpenAIKey(key);
+                        }
+                    });
+                }, 2000);
+            }
+            
+            // Botón para reconfigurar API key (agregar al header si se desea)
+            const setupButton = document.createElement('button');
+            setupButton.innerHTML = '⚙️';
+            setupButton.className = 'setup-api-btn';
+            setupButton.title = 'Configurar OpenAI API';
+            setupButton.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background: var(--primary-500);
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-size: 20px;
+                z-index: 100;
+                display: none; /* Mostrar solo si no hay API key */
+            `;
+            
+            if (!apiKeyManager.hasSavedKey()) {
+                setupButton.style.display = 'block';
+            }
+            
+            setupButton.addEventListener('click', () => {
+                apiKeyManager.showAPIKeySetup((key) => {
+                    if (window.ministerialAI) {
+                        window.ministerialAI.setOpenAIKey(key);
+                    }
+                    setupButton.style.display = 'none';
+                });
+            });
+            
+            document.body.appendChild(setupButton);
+        });
+    </script>
+
+    <style>
+        /* Estilos adicionales para el botón de configuración */
+        .setup-api-btn:hover {
+            background: var(--primary-700) !important;
+            transform: scale(1.1);
+        }
+    </style>
+</body>
+</html>
