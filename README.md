@@ -5,45 +5,65 @@ Ministerial AI es un asistente bíblico y administrativo para el ministerio del 
 ## ✨ Características
 
 - **🤖 Asistente AI Inteligente**: Responde preguntas bíblicas y ministeriales
-- **📖 Base de Datos Bíblica**: Integración con versículos RVR1960
+- **📖 Base de Datos Bíblica**: Integración con versículos RVR1960 con búsqueda por temas
+- **🔍 Búsqueda Avanzada**: Detecta consultas específicas como "Juan 3:16" y temas como "esperanza"
+- **💬 Respuestas Contextuales**: Proporciona versículos bíblicos según la consulta del usuario
 - **🌐 Acceso Web en Tiempo Real**: Búsqueda de información actualizada
 - **🌍 Soporte Bilingüe**: Español e inglés
 - **📱 Diseño Responsivo**: Funciona perfectamente en móviles y desktop
 - **⛪ Información del Ministerio**: Datos completos de contacto y servicios
 - **💝 Integración de Donaciones**: Enlaces directos para apoyar el ministerio
 
+## 📋 Actualización Reciente (v1.1)
+
+**✅ Correcciones Implementadas:**
+- **Búsqueda bíblica mejorada**: Ahora detecta correctamente consultas como "¿Qué dice Juan 3:16?"
+- **Búsqueda por temas espirituales**: Responde a consultas como "una palabra de esperanza" con versículos relevantes
+- **Algoritmo de intención expandido**: Mejor detección de consultas sobre fe, fortaleza, paz, amor, etc.
+- **Base de datos ampliada**: Versículos adicionales categorizados por temas espirituales
+
 ## 🛠️ Tecnologías Utilizadas
 
-- **React 18** con TypeScript
-- **Vite** para desarrollo rápido
-- **Lucide React** para iconografía
-- **Date-fns** para manejo de fechas
+- **Vanilla JavaScript/HTML/CSS**: Implementación sin dependencias
 - **CSS Variables** para diseño consistente
 - **Google Fonts** (Inter + Lora)
+- **Python HTTP Server** para desarrollo local
+- **GitHub Pages** para despliegue automático
 
 ## 🚀 Instalación y Ejecución
 
+### Opción 1: Servidor Python (Recomendado)
 ```bash
-# Instalar dependencias
-npm install
+# Ejecutar servidor de desarrollo
+python3 server.py
+# Abrir http://localhost:3000 en el navegador
+```
 
-# Ejecutar en modo desarrollo
-npm run dev
+### Opción 2: Launcher Automático
+```bash
+# Ejecutar con opciones avanzadas
+python3 launcher.py --help
+python3 launcher.py --port 8080
+```
 
-# Construir para producción
-npm run build
-
-# Vista previa de la build de producción
-npm run preview
+### Opción 3: Servidor Simple
+```bash
+# Servidor básico de Python
+python -m http.server 8000
+# Abrir http://localhost:8000 en el navegador
 ```
 
 ## 📁 Estructura del Proyecto
 
 ```
 ministerial-ai/
-├── src/
-│   ├── components/          # Componentes React
-│   ├── services/           # Lógica de negocio (agente AI)
+├── index.html              # Aplicación principal
+├── styles.css              # Estilos y diseño
+├── script.js               # Lógica del agente AI
+├── server.py               # Servidor de desarrollo
+├── launcher.py             # Launcher con opciones avanzadas
+├── deploy_github.py        # Script de despliegue automatizado
+└── README.md               # Documentación
 │   ├── types/              # Definiciones TypeScript
 │   ├── styles/             # Estilos CSS globales
 │   ├── App.tsx             # Componente principal

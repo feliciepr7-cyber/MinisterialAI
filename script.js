@@ -348,6 +348,16 @@ class MinisterialAI {
       return this.getMinistryEvents();
     }
     
+    if (this.isSpiritualEncouragementQuery(message)) {
+      const encouragement = this.getScriptureByTheme(message);
+      if (encouragement) {
+        const encouragementText = this.currentLanguage === 'es' 
+          ? 'Aquí tienes una palabra de esperanza para ti:'
+          : 'Here is a word of hope for you:';
+        return `${encouragementText}\n\n**${encouragement.reference}**\n\n${encouragement.text}\n\nQue Dios te bendiga y te fortalezca. 🙏`;
+      }
+    }
+    
     // Búsqueda web para consultas más específicas
     const webResults = await this.searchWeb(message);
     if (webResults && webResults.length > 0) {
@@ -542,6 +552,64 @@ ${this.translations.ministryServices[this.currentLanguage]}
       .toLowerCase()
       .split(' ')
       .filter(word => word.length > 2 && !stopWords.includes(word));
+  }
+
+  isSpiritualEncouragementQuery(message) {
+    const encouragementKeywords = [
+      'esperanza', 'hope', 'fe', 'faith', 'ánimo', 'encouragement', 'consuelo', 'comfort',
+      'paz', 'peace', 'fortaleza', 'strength', 'valentía', 'courage', 'amor', 'love',
+      'bendición', 'blessing', 'beneficio', 'benefit', 'ayuda', 'help', 'protección', 'protection',
+      'palabra', 'word', 'mensaje', 'message', 'inspiración', 'inspiration', 'motivación', 'motivation'
+    ];
+    return encouragementKeywords.some(keyword => message.includes(keyword));
+  }
+
+  getScriptureByTheme(message) {
+    const keywords = this.extractKeywords(message);
+    
+    // Mapear palabras clave a temas bíblicos
+    const themeMap = {
+      'esperanza': ['esperanza', 'hope'],
+      'fe': ['fe', 'faith', 'creer', 'believe'],
+      'ánimo': ['ánimo', 'consuelo', 'encouragement', 'comfort', 'console'],
+      'paz': ['paz', 'peace', 'tranquilidad', 'quiet'],
+      'fortaleza': ['fortaleza', 'strength', 'valentía', 'courage'],
+      'amor': ['amor', 'love'],
+      'bendición': ['bendición', 'blessing', 'bendiciones', 'blessings'],
+      'protección': ['protección', 'protection', 'guarda', 'guard'],
+      'sabiduría': ['sabiduría', 'wisdom'],
+      'dirección': ['dirección', 'guidance', 'guía', 'guide']
+    };
+
+    // Buscar en los temas de la base de datos
+    for (const scripture of this.scriptureDatabase) {
+      for (const theme of scripture.themes) {
+        for (const keyword of keywords) {
+          if (themeMap[theme]) {
+            for (const mappedWord of themeMap[theme]) {
+              if (keyword.includes(mappedWord) || mappedWord.includes(keyword)) {
+                return scripture;
+              }
+            }
+          }
+          // También verificar coincidencia directa con palabras clave
+          if (theme.includes(keyword) || keyword.includes(theme)) {
+            return scripture;
+          }
+        }
+      }
+    }
+    
+    // Si no encuentra por tema específico, devolver un versículo de esperanza por defecto
+    const hopeScriptures = this.scriptureDatabase.filter(s => 
+      s.themes.includes('esperanza') || s.themes.includes('hope')
+    );
+    
+    if (hopeScriptures.length > 0) {
+      return hopeScriptures[0]; // Devolver el primer versículo de esperanza
+    }
+    
+    return null;
   }
 }
 
