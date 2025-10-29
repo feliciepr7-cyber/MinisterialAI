@@ -8,15 +8,23 @@ Ministerial AI es un asistente bíblico y administrativo para el ministerio del 
 - **📖 Base de Datos Bíblica**: Integración con versículos RVR1960 con búsqueda por temas
 - **🔍 Búsqueda Avanzada**: Detecta consultas específicas como "Juan 3:16" y temas como "esperanza"
 - **💬 Respuestas Contextuales**: Proporciona versículos bíblicos según la consulta del usuario
+- **📝 Generación de Bosquejos**: Crea bosquejos estructurados para sermones y estudios bíblicos
 - **🌐 Acceso Web en Tiempo Real**: Búsqueda de información actualizada
 - **🌍 Soporte Bilingüe**: Español e inglés
 - **📱 Diseño Responsivo**: Funciona perfectamente en móviles y desktop
 - **⛪ Información del Ministerio**: Datos completos de contacto y servicios
 - **💝 Integración de Donaciones**: Enlaces directos para apoyar el ministerio
 
-## 📋 Actualización Reciente (v1.1)
+## 📋 Actualización Reciente (v1.2)
 
-**✅ Correcciones Implementadas:**
+**✅ Nueva Funcionalidad - Generación de Bosquejos:**
+- **Detección de consultas de bosquejo**: Reconoce solicitudes como "necesito un bosquejo sobre la fe"
+- **Generación estructurada**: Crea bosquejos completos con introducción, puntos principales y conclusión
+- **Plantillas temáticas**: Incluye plantillas predefinidas para temas como fe, amor, esperanza, fortaleza
+- **Soporte bilingüe**: Genera bosquejos tanto en español como en inglés
+- **Integración bíblica**: Incluye referencias bíblicas relevantes en cada bosquejo
+
+**✅ Correcciones Previas (v1.1):**
 - **Búsqueda bíblica mejorada**: Ahora detecta correctamente consultas como "¿Qué dice Juan 3:16?"
 - **Búsqueda por temas espirituales**: Responde a consultas como "una palabra de esperanza" con versículos relevantes
 - **Algoritmo de intención expandido**: Mejor detección de consultas sobre fe, fortaleza, paz, amor, etc.
@@ -81,6 +89,7 @@ ministerial-ai/
 - **Consultas Bíblicas**: Búsqueda de versículos y explicaciones
 - **Información Ministerial**: Horarios, servicios, contacto
 - **Asesoría Espiritual**: Consejos bíblicos y oración
+- **Generación de Bosquejos**: Creación de bosquejos estructurados para sermones
 - **Búsqueda Web**: Información actualizada del ministerio
 - **Estudios Bíblicos**: Orientación para el crecimiento espiritual
 
@@ -91,7 +100,29 @@ El agente identifica automáticamente el tipo de consulta:
 - Información ministerial
 - Peticiones de oración
 - Estudios bíblicos
+- **Solicitudes de bosquejos** (nuevo en v1.2)
 - Eventos y actividades
+
+### Generación de Bosquejos (Nueva Funcionalidad)
+El sistema reconoce consultas como:
+- "Necesito un bosquejo sobre la fe"
+- "Prepara un sermón sobre el amor de Dios"
+- "Bosquejo para predicar sobre la esperanza"
+- "Outline about forgiveness"
+
+**Estructura del Bosquejo:**
+- **Título**: Basado en el tema solicitado
+- **Introducción**: Orientación para presentar el tema
+- **Puntos Principales**: Estructura de 3 puntos con referencias bíblicas
+- **Versículos de Apoyo**: Referencias bíblicas relevantes
+- **Conclusión**: Aplicación práctica y llamado al compromiso
+
+**Temas Predefinidos:**
+- Fe y vida cristiana
+- Amor de Dios
+- Esperanza y futuro
+- Fortaleza en Cristo
+- Temas personalizados (sistema de fallback)
 
 ### Soporte de Idiomas
 - **Español**: Idioma principal con terminología cristiana tradicional
@@ -149,6 +180,15 @@ La arquitectura modular permite:
 
 ## 📈 Roadmap Futuro
 
+**✅ Completado en v1.2:**
+- [x] Generación de bosquejos para sermones y estudios
+
+**🔄 En Desarrollo:**
+- [ ] Ampliación de plantillas de bosquejos (30+ temas)
+- [ ] Generación de estudios bíblicos completos
+- [ ] Bosquejos personalizados por ocasiones especiales
+
+**📋 Planificado:**
 - [ ] Integración con redes sociales del ministerio
 - [ ] Calendario de eventos en tiempo real
 - [ ] Sistema de oración comunitaria
