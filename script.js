@@ -348,6 +348,13 @@ class MinisterialAI {
       return this.getMinistryEvents();
     }
     
+    if (this.isSermonOutlineQuery(message)) {
+      const outline = this.generateSermonOutline(message);
+      if (outline) {
+        return outline;
+      }
+    }
+    
     if (this.isSpiritualEncouragementQuery(message)) {
       const encouragement = this.getScriptureByTheme(message);
       if (encouragement) {
@@ -355,13 +362,6 @@ class MinisterialAI {
           ? 'Aquí tienes una palabra de esperanza para ti:'
           : 'Here is a word of hope for you:';
         return `${encouragementText}\n\n**${encouragement.reference}**\n\n${encouragement.text}\n\nQue Dios te bendiga y te fortalezca. 🙏`;
-      }
-    }
-    
-    if (this.isSermonOutlineQuery(message)) {
-      const outline = this.generateSermonOutline(message);
-      if (outline) {
-        return outline;
       }
     }
     
@@ -554,16 +554,16 @@ ${this.translations.ministryServices[this.currentLanguage]}
   }
 
   isSermonOutlineQuery(message) {
-    const outlineKeywords = ['bosquejo', 'outline', 'predicar', 'sermón', 'sermon', 'predicación', 'preaching', 'mensaje', 'estudio', 'enseñanza', 'teaching'];
+    const outlineKeywords = ['bosquejo', 'outline', 'predicar', 'sermón', 'sermon', 'predicación', 'preaching', 'mensaje', 'estudio', 'enseñanza', 'teaching', 'esquema', 'plan', 'structure'];
     return outlineKeywords.some(keyword => message.includes(keyword));
   }
 
   extractKeywords(message) {
-    const stopWords = ['el', 'la', 'de', 'que', 'y', 'a', 'en', 'un', 'es', 'se', 'no', 'te', 'lo', 'le', 'da', 'su', 'por', 'son', 'con', 'para', 'como', 'las', 'del'];
+    const stopWords = ['el', 'la', 'de', 'que', 'y', 'a', 'en', 'un', 'es', 'se', 'no', 'te', 'lo', 'le', 'da', 'su', 'por', 'son', 'con', 'para', 'como', 'las', 'del', 'sobre', 'acerca', 'prepara', 'dame', 'un', 'una', 'mi', 'tu', 'su'];
     return message
       .toLowerCase()
       .split(' ')
-      .filter(word => word.length > 2 && !stopWords.includes(word));
+      .filter(word => word.length > 1 && !stopWords.includes(word));
   }
 
   isSpiritualEncouragementQuery(message) {
@@ -634,12 +634,24 @@ ${this.translations.ministryServices[this.currentLanguage]}
         theme: 'fe',
         mainPoints: this.currentLanguage === 'es' ? [
           'I. ¿Qué es la fe verdadera? (Hebreos 11:1)',
+          '   • Definición bíblica de la fe',
+          '   • Elementos esenciales: esperanza y convicción',
           'II. La fe en acción (Santiago 2:17)',
-          'III. Los frutos de la fe (Romanos 1:17)'
+          '   • La fe sin obras está muerta',
+          '   • Ejemplos de fe en acción',
+          'III. Los frutos de la fe (Romanos 1:17)',
+          '   • Transformación personal',
+          '   • Crecimiento en la vida cristiana'
         ] : [
           'I. What is true faith? (Hebrews 11:1)',
-          'II. Faith in action (James 2:17)', 
-          'III. The fruits of faith (Romans 1:17)'
+          '   • Biblical definition of faith',
+          '   • Essential elements: hope and conviction',
+          'II. Faith in action (James 2:17)',
+          '   • Faith without works is dead',
+          '   • Examples of faith in action',
+          'III. The fruits of faith (Romans 1:17)',
+          '   • Personal transformation',
+          '   • Growth in Christian life'
         ]
       },
       'amor': {
