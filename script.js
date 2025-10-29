@@ -130,8 +130,8 @@ class MinisterialAI {
   get translations() {
     return {
       welcome: {
-        es: "¡Hola! Soy Ministerial AI, tu asistente del ministerio. ¿En qué puedo ayudarte hoy?",
-        en: "Hello! I'm Ministerial AI, your ministry assistant. How can I help you today?"
+        es: "¡Hola! Soy Ministerio AI, tu asistente del ministerio. ¿En qué puedo ayudarte hoy?",
+        en: "Hello! I'm Ministerio AI, your ministry assistant. How can I help you today?"
       },
       ministryInfo: {
         es: "Aquí tienes la información del ministerio:",

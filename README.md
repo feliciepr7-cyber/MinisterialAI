@@ -1,6 +1,6 @@
-# Ministerial AI
+# Ministerio AI
 
-Ministerial AI es un asistente bíblico y administrativo para el ministerio del Rev. Frankie Felicie. Esta aplicación web moderna proporciona respuestas inteligentes sobre la Biblia, doctrina cristiana, servicios del ministerio y más.
+Ministerio AI es un asistente bíblico y administrativo para el ministerio del Rev. Frankie Felicie. Esta aplicación web moderna proporciona respuestas inteligentes sobre la Biblia, doctrina cristiana, servicios del ministerio y más.
 
 ## ✨ Características
 
