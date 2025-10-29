@@ -1,0 +1,261 @@
+/* Reset y configuración base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Colores primarios */
+  --primary-500: #2D5F9A;
+  --primary-700: #1E426B;
+  --primary-100: #EAF2FA;
+
+  /* Colores neutros */
+  --neutral-900: #1C2026;
+  --neutral-600: #5A6472;
+  --neutral-200: #E4E7EB;
+  --neutral-100: #FFFFFF;
+  --neutral-50: #F8F9FA;
+
+  /* Colores semánticos */
+  --success: #15803D;
+  --warning: #B45309;
+  --error: #B91C1C;
+
+  /* Tipografía */
+  --font-heading: 'Lora', serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* Espaciado */
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+  --space-xxxl: 64px;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 4px rgba(28, 32, 38, 0.04);
+  --shadow-md: 0 4px 12px rgba(28, 32, 38, 0.08);
+
+  /* Bordes */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+
+  /* Transiciones */
+  --transition-fast: 200ms ease-out;
+  --transition-smooth: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--neutral-900);
+  background-color: var(--neutral-50);
+  overflow-x: hidden;
+}
+
+/* Tipografía */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: var(--space-sm);
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 600;
+  font-family: var(--font-body);
+}
+
+h4, h5, h6 {
+  font-size: 18px;
+  font-weight: 600;
+  font-family: var(--font-body);
+}
+
+p {
+  margin-bottom: var(--space-sm);
+}
+
+.text-small {
+  font-size: 14px;
+}
+
+.text-bold {
+  font-weight: 600;
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 16px 24px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--transition-smooth);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background-color: var(--primary-500);
+  color: var(--neutral-100);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-700);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-secondary {
+  background-color: var(--neutral-200);
+  color: var(--neutral-900);
+}
+
+.btn-secondary:hover {
+  background-color: var(--neutral-600);
+  color: var(--neutral-100);
+}
+
+/* Componentes de interfaz */
+.card {
+  background-color: var(--neutral-100);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-xl);
+}
+
+.input {
+  width: 100%;
+  padding: var(--space-md);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 16px;
+  background-color: var(--neutral-100);
+  transition: var(--transition-fast);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(45, 95, 154, 0.1);
+}
+
+/* Utilidades */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+.gap-lg { gap: var(--space-lg); }
+
+.hidden { display: none; }
+
+/* Responsive */
+@media (max-width: 767px) {
+  h1 { font-size: 32px; }
+  h2 { font-size: 24px; }
+  h3 { font-size: 18px; }
+  
+  .container {
+    padding: 0 var(--space-sm);
+  }
+  
+  .btn {
+    height: 44px;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--neutral-200);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neutral-600);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-700);
+}
