@@ -89,36 +89,44 @@ body {
 }
 
 .heart-icon {
-  font-size: 32px;
+  font-size: 28px;
   color: var(--primary-500);
 }
 
 .title-section h1 {
-  font-size: 24px;
+  font-size: 18px;
   margin: 0;
   color: var(--neutral-900);
   font-family: var(--font-heading);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .subtitle {
   margin: 0;
   color: var(--neutral-600);
-  font-size: 14px;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .language-btn {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  padding: 8px 16px;
+  gap: var(--space-xs);
+  padding: 8px 12px;
   height: auto;
-  font-size: 14px;
+  font-size: 13px;
   background-color: var(--neutral-200);
   color: var(--neutral-900);
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: var(--transition-smooth);
+  flex-shrink: 0;
+  min-height: 36px;
 }
 
 .language-btn:hover {
@@ -126,10 +134,46 @@ body {
   color: var(--neutral-100);
 }
 
-/* Main Container */
+/* Header Actions Container */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+/* Home Button Styles */
+.home-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 8px 12px;
+  height: auto;
+  font-size: 13px;
+  background-color: var(--primary-500);
+  color: var(--neutral-100);
+  border: none;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-weight: 500;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.home-icon {
+  font-size: 14px;
+}
+
+.home-btn:hover {
+  background-color: var(--primary-700);
+  color: var(--neutral-100);
+  text-decoration: none;
+}
+
+/* Main Container optimizado */
 .main-container {
-  padding: var(--space-lg) var(--space-md);
-  min-height: calc(100vh - 100px);
+  padding: var(--space-md) var(--space-sm);
+  min-height: calc(100vh - 80px);
 }
 
 .content-grid {
@@ -140,7 +184,7 @@ body {
   margin: 0 auto;
 }
 
-/* Chat Container */
+/* Chat Container completamente rediseñado para móviles */
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -148,18 +192,20 @@ body {
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
   overflow: hidden;
-  height: 600px;
+  height: calc(100vh - 200px);
+  max-height: 600px;
+  min-height: 400px;
 }
 
 .messages-area {
   flex: 1;
-  padding: var(--space-lg);
+  padding: var(--space-md);
   overflow-y: auto;
-  max-height: 500px;
+  min-height: 0;
 }
 
 .message {
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
   display: flex;
   justify-content: flex-start;
 }
@@ -169,12 +215,14 @@ body {
 }
 
 .message-content {
-  max-width: 70%;
+  max-width: 75%;
   background-color: var(--neutral-100);
-  padding: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--neutral-200);
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .user-message .message-content {
@@ -183,17 +231,18 @@ body {
 }
 
 .message-time {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--neutral-600);
-  margin-top: 8px;
+  margin-top: 6px;
   text-align: right;
 }
 
-/* Input Area */
+/* Input Area optimizado para móviles */
 .input-area {
   border-top: 1px solid var(--neutral-200);
-  padding: var(--space-lg);
+  padding: var(--space-md);
   background-color: var(--neutral-50);
+  flex-shrink: 0;
 }
 
 .input-container {
@@ -204,9 +253,9 @@ body {
 
 #messageInput {
   flex: 1;
-  min-height: 56px;
-  max-height: 120px;
-  padding: var(--space-md);
+  min-height: 48px;
+  max-height: 100px;
+  padding: var(--space-sm) var(--space-md);
   border: 1px solid var(--neutral-200);
   border-radius: var(--radius-md);
   font-family: var(--font-body);
@@ -215,6 +264,8 @@ body {
   outline: none;
   background-color: var(--neutral-100);
   transition: var(--transition-fast);
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 #messageInput:focus {
@@ -223,8 +274,8 @@ body {
 }
 
 .send-btn {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border: none;
   border-radius: var(--radius-sm);
   background-color: var(--primary-500);
@@ -234,26 +285,30 @@ body {
   align-items: center;
   justify-content: center;
   transition: var(--transition-smooth);
+  flex-shrink: 0;
+  touch-action: manipulation;
 }
 
 .send-btn:hover:not(:disabled) {
   background-color: var(--primary-700);
-  transform: translateY(-2px);
+}
+
+.send-btn:active {
+  transform: scale(0.95);
 }
 
 .send-btn:disabled {
   background-color: var(--neutral-200);
   color: var(--neutral-600);
   cursor: not-allowed;
-  transform: none;
 }
 
-/* Ministry Card */
+/* Ministry Card optimizado */
 .ministry-card {
   background-color: var(--neutral-100);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
-  padding: var(--space-xl);
+  padding: var(--space-lg);
   height: fit-content;
   position: sticky;
   top: var(--space-lg);
@@ -381,48 +436,223 @@ body {
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Responsive */
+/* Responsive optimizado para móviles */
+
+/* Tablets y móviles grandes (767px y menores) */
 @media (max-width: 767px) {
   .content-grid {
     grid-template-columns: 1fr;
     gap: var(--space-md);
-    padding: 0 var(--space-sm);
+    padding: 0 var(--space-xs);
   }
   
   .ministry-card {
     order: -1;
+    margin-bottom: var(--space-md);
   }
   
   .main-title {
     font-size: 20px !important;
   }
   
-  .subtitle {
-    font-size: 12px;
-  }
-  
   .container {
-    padding: 0 var(--space-sm);
+    padding: 0 var(--space-xs);
   }
   
   .message-content {
     max-width: 85%;
+    font-size: 14px;
+    padding: var(--space-sm);
   }
   
   .header-content {
-    flex-direction: column;
-    gap: var(--space-sm);
-    align-items: flex-start;
+    gap: var(--space-xs);
   }
   
-  .language-btn {
-    align-self: flex-end;
+  .language-btn,
+  .home-btn {
+    font-size: 12px;
+    padding: 6px 10px;
+    min-height: 32px;
+  }
+  
+  /* Chat optimizado para tablets */
+  .chat-container {
+    height: calc(100vh - 180px);
+    max-height: 500px;
+    min-height: 350px;
+  }
+  
+  .messages-area {
+    padding: var(--space-sm);
+  }
+  
+  .input-area {
+    padding: var(--space-sm);
   }
 }
 
-/* Scrollbar personalizado */
+/* Móviles medianos (480px y menores) */
+@media (max-width: 480px) {
+  .main-container {
+    padding: var(--space-sm) var(--space-xs);
+  }
+  
+  .heart-icon {
+    font-size: 24px;
+  }
+  
+  .title-section h1 {
+    font-size: 16px;
+  }
+  
+  .subtitle {
+    font-size: 11px;
+  }
+  
+  .language-btn,
+  .home-btn {
+    font-size: 11px;
+    padding: 5px 8px;
+    min-height: 30px;
+  }
+  
+  .home-icon {
+    font-size: 12px;
+  }
+  
+  /* Chat optimizado para móviles medianos */
+  .chat-container {
+    height: calc(100vh - 160px);
+    max-height: 450px;
+    min-height: 300px;
+    border-radius: 0;
+  }
+  
+  .chat-container {
+    margin: 0 calc(var(--space-xs) * -1);
+    border-radius: var(--radius-md);
+  }
+  
+  .messages-area {
+    padding: var(--space-xs);
+  }
+  
+  .message-content {
+    max-width: 90%;
+    font-size: 14px;
+  }
+  
+  .message {
+    margin-bottom: var(--space-sm);
+  }
+  
+  .input-area {
+    padding: var(--space-sm) var(--space-xs);
+    border-radius: 0;
+    margin: 0 calc(var(--space-xs) * -1);
+  }
+  
+  .input-container {
+    gap: var(--space-xs);
+  }
+  
+  #messageInput {
+    font-size: 16px; /* Previene zoom en iOS */
+    padding: var(--space-xs) var(--space-sm);
+  }
+  
+  .send-btn {
+    width: 44px;
+    height: 44px;
+  }
+  
+  /* Ministry card compacto */
+  .ministry-card {
+    padding: var(--space-md);
+    margin-bottom: var(--space-sm);
+  }
+  
+  .ministry-title {
+    font-size: 18px;
+  }
+  
+  .ministry-name {
+    font-size: 16px;
+  }
+  
+  .detail-item {
+    margin-bottom: var(--space-sm);
+  }
+  
+  .detail-text {
+    font-size: 13px;
+  }
+  
+  .donate-btn {
+    height: 44px;
+    font-size: 15px;
+  }
+}
+
+/* Móviles pequeños (360px y menores) */
+@media (max-width: 360px) {
+  .container {
+    padding: 0 4px;
+  }
+  
+  .main-container {
+    padding: var(--space-xs);
+  }
+  
+  .chat-container {
+    height: calc(100vh - 140px);
+    max-height: 400px;
+    min-height: 280px;
+  }
+  
+  .language-btn,
+  .home-btn {
+    font-size: 10px;
+    padding: 4px 6px;
+    min-height: 28px;
+  }
+  
+  .home-icon {
+    font-size: 11px;
+  }
+  
+  .messages-area {
+    padding: var(--space-xs);
+  }
+  
+  .message-content {
+    max-width: 95%;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+  
+  .input-area {
+    padding: var(--space-xs);
+  }
+  
+  .ministry-card {
+    padding: var(--space-sm);
+  }
+  
+  .detail-icon {
+    font-size: 14px;
+    width: 16px;
+  }
+  
+  .detail-text {
+    font-size: 12px;
+  }
+}
+
+/* Scrollbar personalizado y optimizado para móviles */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -431,11 +661,36 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: var(--neutral-600);
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-700);
+}
+
+/* En móviles, hacer el scroll más sutil */
+@media (max-width: 767px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+}
+
+/* Optimización táctil para todos los elementos interactivos */
+button, 
+.language-btn,
+.send-btn,
+.donate-btn,
+#messageInput {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Mejora la legibilidad en pantallas pequeñas */
+@media (max-width: 480px) {
+  .message-text {
+    word-wrap: break-word;
+    hyphens: auto;
+  }
 }
 
 /* Accesibilidad */
@@ -463,5 +718,77 @@ body {
   }
   50% {
     opacity: 0.6;
+  }
+}
+
+/* Mejoras adicionales para móviles */
+@media (max-width: 767px) {
+  /* Prevenir zoom accidental en iOS */
+  input[type="text"],
+  input[type="search"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+  
+  /* Mejorar la experiencia táctil */
+  .message {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Optimizar el texto en mensajes largos */
+  .message-text {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  /* Prevenir overflow horizontal en mensajes */
+  .message-content {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* Soporte para pantallas con alta densidad de píxeles */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .heart-icon {
+    font-size: 30px;
+  }
+}
+
+/* Orientación landscape en móviles */
+@media (max-height: 500px) and (orientation: landscape) {
+  .header {
+    padding: var(--space-xs) var(--space-sm);
+  }
+  
+  .title-section h1 {
+    font-size: 16px;
+  }
+  
+  .main-container {
+    padding: var(--space-sm) var(--space-xs);
+  }
+  
+  .chat-container {
+    height: calc(100vh - 100px);
+    max-height: 300px;
+  }
+  
+  .messages-area {
+    padding: var(--space-sm);
+  }
+  
+  .input-area {
+    padding: var(--space-sm);
+  }
+  
+  .ministry-card {
+    display: none; /* Ocultar sidebar en landscape para maximizar chat */
+  }
+  
+  .content-grid {
+    grid-template-columns: 1fr;
   }
 }
