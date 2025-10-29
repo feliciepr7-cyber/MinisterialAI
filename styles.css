@@ -80,12 +80,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
 }
 
 .logo-section {
   display: flex;
   align-items: center;
   gap: var(--space-md);
+  flex: 1;
+  min-width: 0;
 }
 
 .heart-icon {
@@ -466,14 +470,45 @@ body {
   }
   
   .header-content {
+    flex-wrap: nowrap;
     gap: var(--space-xs);
+  }
+  
+  .logo-section {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .header-actions {
+    gap: var(--space-xs);
+    flex-shrink: 0;
   }
   
   .language-btn,
   .home-btn {
     font-size: 12px;
-    padding: 6px 10px;
-    min-height: 32px;
+    padding: 8px 12px;
+    min-height: 36px;
+    /* Mejoras táctiles */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  
+  .language-btn:active,
+  .home-btn:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+  }
+  
+  .main-title {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+  
+  .subtitle {
+    font-size: 11px;
   }
   
   /* Chat optimizado para tablets */
@@ -481,10 +516,35 @@ body {
     height: calc(100vh - 180px);
     max-height: 500px;
     min-height: 350px;
+    /* Mejoras para scroll táctil */
+    -webkit-overflow-scrolling: touch;
   }
   
   .messages-area {
     padding: var(--space-sm);
+  }
+  
+  .input-area {
+    padding: var(--space-sm);
+    /* Mejoras táctiles */
+    touch-action: manipulation;
+  }
+  
+  #messageInput {
+    font-size: 16px; /* Previene zoom en iOS */
+    padding: var(--space-sm);
+    border-radius: var(--radius-sm);
+  }
+  
+  .send-btn {
+    min-width: 44px; /* Tamaño táctil mínimo */
+    min-height: 44px;
+  }
+  
+  .message-content {
+    /* Mejoras táctiles */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
   
   .input-area {
@@ -510,15 +570,51 @@ body {
     font-size: 11px;
   }
   
+  .header-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-xs);
+  }
+  
+  .logo-section {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .header-actions {
+    justify-content: center;
+    width: 100%;
+  }
+  
   .language-btn,
   .home-btn {
     font-size: 11px;
-    padding: 5px 8px;
-    min-height: 30px;
+    padding: 8px 12px;
+    min-height: 36px;
+    flex: 1;
+    max-width: 120px;
+    /* Mejoras táctiles */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+  }
+  
+  .language-btn:active,
+  .home-btn:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
   }
   
   .home-icon {
     font-size: 12px;
+  }
+  
+  .main-title {
+    font-size: 16px;
+  }
+  
+  .subtitle {
+    font-size: 10px;
   }
   
   /* Chat optimizado para móviles medianos */
@@ -592,6 +688,29 @@ body {
   .donate-btn {
     height: 44px;
     font-size: 15px;
+    /* Mejoras táctiles */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Mejoras táctiles para el chat */
+  .chat-container {
+    /* Mejoras para scroll táctil */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .messages-area {
+    /* Mejoras para scroll táctil */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  #messageInput {
+    font-size: 16px; /* Previene zoom en iOS */
+  }
+  
+  .input-area {
+    /* Mejoras táctiles */
+    touch-action: manipulation;
   }
 }
 
@@ -611,15 +730,50 @@ body {
     min-height: 280px;
   }
   
+  .header-content {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+  
+  .header-actions {
+    flex-direction: column;
+    gap: var(--space-xs);
+    width: 100%;
+  }
+  
   .language-btn,
   .home-btn {
     font-size: 10px;
-    padding: 4px 6px;
-    min-height: 28px;
+    padding: 8px 12px;
+    min-height: 36px;
+    width: 100%;
+    justify-content: center;
+    /* Mejoras táctiles */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+  }
+  
+  .language-btn:active,
+  .home-btn:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
   }
   
   .home-icon {
     font-size: 11px;
+  }
+  
+  .main-title {
+    font-size: 14px;
+  }
+  
+  .subtitle {
+    font-size: 9px;
+  }
+  
+  .heart-icon {
+    font-size: 20px;
   }
   
   .messages-area {
@@ -747,6 +901,35 @@ button,
   .message-content {
     word-wrap: break-word;
     overflow-wrap: break-word;
+  }
+}
+
+/* Mejoras táctiles adicionales para móviles pequeños */
+@media (max-width: 360px) {
+  .chat-container {
+    /* Mejoras para scroll táctil */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .messages-area {
+    /* Mejoras para scroll táctil */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  #messageInput {
+    font-size: 16px; /* Previene zoom en iOS */
+  }
+  
+  .input-area {
+    /* Mejoras táctiles */
+    touch-action: manipulation;
+  }
+  
+  .donate-btn {
+    /* Mejoras táctiles */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px;
   }
 }
 
