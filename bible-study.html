@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estudios Bíblicos - Ministerio AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+      .study-form {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .study-form input, .study-form select {
+        width: 100%;
+        padding: 0.75rem;
+        margin: 0.5rem 0;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: 'Inter', sans-serif;
+      }
+      .study-form button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 1rem;
+        width: 100%;
+      }
+      .study-result {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-top: 2rem;
+        white-space: pre-wrap;
+        line-height: 1.8;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .study-library {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .study-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .study-card:hover {
+        transform: translateY(-4px);
+      }
+      .study-card h3 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+      .study-card .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: #f0f0f0;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+      }
+      .loading {
+        text-align: center;
+        padding: 2rem;
+        color: #667eea;
+      }
+      .nav-links {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .nav-links a {
+        padding: 0.5rem 1rem;
+        background: #f0f0f0;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+      }
+      .nav-links a:hover {
+        background: #667eea;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo-section">
+            <div class="heart-icon">📚</div>
+            <div class="title-section">
+              <h1 class="main-title">Estudios Bíblicos</h1>
+              <p class="subtitle">Profundiza en la Palabra de Dios</p>
+            </div>
+          </div>
+          <div class="header-actions">
+            <a href="/" class="home-btn">
+              <span>Inicio</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="main-container">
+      <div class="container">
+        <div class="nav-links">
+          <a href="/sermons.html">Sermones</a>
+          <a href="/devotionals.html">Devocionales</a>
+          <a href="/bible-study.html">Estudios</a>
+          <a href="/prayers.html">Oraciones</a>
+          <a href="/events.html">Eventos</a>
+        </div>
+
+        <div class="study-form">
+          <h2 style="text-align: center;">Generar Estudio Bíblico</h2>
+          <input type="text" id="studyTopic" placeholder="Tema del estudio (ej: La Fe en Tiempos Difíciles)" required>
+          <select id="groupType">
+            <option value="individual">Estudio Personal</option>
+            <option value="small_group" selected>Grupo Pequeño (5-12 personas)</option>
+            <option value="large_group">Grupo Grande/Congregación</option>
+          </select>
+          <button id="generateStudyBtn">Generar Estudio</button>
+        </div>
+
+        <div id="studyResult" class="study-result" style="display: none;"></div>
+        <div id="loadingMessage" class="loading" style="display: none;">Preparando estudio bíblico profundo...</div>
+
+        <h2 style="margin-top: 3rem; text-align: center;">Biblioteca de Estudios</h2>
+        <div id="studyLibrary" class="study-library"></div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { generateBibleStudy, getBibleStudies } from './supabase-client.js';
+
+      const generateBtn = document.getElementById('generateStudyBtn');
+      const topicInput = document.getElementById('studyTopic');
+      const groupTypeSelect = document.getElementById('groupType');
+      const resultDiv = document.getElementById('studyResult');
+      const loadingDiv = document.getElementById('loadingMessage');
+      const libraryDiv = document.getElementById('studyLibrary');
+
+      // Generar estudio
+      generateBtn.addEventListener('click', async () => {
+        const topic = topicInput.value.trim();
+        if (!topic) {
+          alert('Por favor ingresa un tema para el estudio bíblico');
+          return;
+        }
+
+        const groupType = groupTypeSelect.value;
+
+        resultDiv.style.display = 'none';
+        loadingDiv.style.display = 'block';
+
+        try {
+          const result = await generateBibleStudy(topic, groupType);
+          
+          resultDiv.innerHTML = `
+            <h2>${result.title}</h2>
+            <p><strong>Tema:</strong> ${result.topic}</p>
+            <p><strong>Tipo:</strong> ${result.group_type === 'individual' ? 'Personal' : result.group_type === 'small_group' ? 'Grupo Pequeño' : 'Grupo Grande'}</p>
+            <hr style="margin: 1rem 0;">
+            <div>${result.content}</div>
+          `;
+          
+          resultDiv.style.display = 'block';
+          loadingDiv.style.display = 'none';
+
+          // Recargar biblioteca
+          loadStudyLibrary();
+        } catch (error) {
+          console.error('Error generando estudio:', error);
+          alert('Error al generar el estudio. Verifica la configuración de API.');
+          loadingDiv.style.display = 'none';
+        }
+      });
+
+      // Cargar biblioteca de estudios
+      async function loadStudyLibrary() {
+        try {
+          const studies = await getBibleStudies(20);
+          
+          libraryDiv.innerHTML = studies.map(study => `
+            <div class="study-card" onclick="viewStudy('${study.id}')">
+              <h3>${study.title}</h3>
+              <p><strong>Tema:</strong> ${study.topic}</p>
+              <span class="badge">${study.group_type === 'individual' ? 'Personal' : study.group_type === 'small_group' ? 'Grupo Pequeño' : 'Grupo Grande'}</span>
+              <p style="color: #999; font-size: 0.9rem; margin-top: 0.5rem;">${new Date(study.created_at).toLocaleDateString('es-ES')}</p>
+            </div>
+          `).join('');
+        } catch (error) {
+          console.error('Error cargando estudios:', error);
+          libraryDiv.innerHTML = '<p>No se pudieron cargar los estudios.</p>';
+        }
+      }
+
+      // Ver estudio completo
+      window.viewStudy = async (studyId) => {
+        try {
+          const { supabase } = await import('./supabase-client.js');
+          const { data, error } = await supabase
+            .from('bible_studies')
+            .select('*')
+            .eq('id', studyId)
+            .maybeSingle();
+
+          if (error) throw error;
+
+          resultDiv.innerHTML = `
+            <h2>${data.title}</h2>
+            <p><strong>Tema:</strong> ${data.topic}</p>
+            <p><strong>Tipo:</strong> ${data.group_type === 'individual' ? 'Personal' : data.group_type === 'small_group' ? 'Grupo Pequeño' : 'Grupo Grande'}</p>
+            <p style="color: #999; font-size: 0.9rem;">${new Date(data.created_at).toLocaleDateString('es-ES')}</p>
+            <hr style="margin: 1rem 0;">
+            <div>${data.structure}</div>
+          `;
+          
+          resultDiv.style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (error) {
+          console.error('Error cargando estudio:', error);
+          alert('Error al cargar el estudio.');
+        }
+      };
+
+      // Cargar biblioteca al inicio
+      loadStudyLibrary();
+    </script>
+  </body>
+</html>

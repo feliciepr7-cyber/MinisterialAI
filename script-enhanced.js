@@ -279,45 +279,110 @@ class MinisterialAIEnhanced {
     const messageInput = document.getElementById('messageInput');
     const content = messageInput.value.trim();
     
-    if (!content || this.isLoading) return;
+    console.log('[sendMessage] Starting with content:', content);
+    
+    if (!content || this.isLoading) {
+      console.log('[sendMessage] Aborted: empty content or already loading');
+      return;
+    }
 
+    console.log('[sendMessage] Adding user message');
     this.addMessage(content, 'user');
     messageInput.value = '';
     messageInput.style.height = 'auto';
     
+    console.log('[sendMessage] Setting loading state');
     this.setLoading(true);
+    
+    // Añadir mensaje temporal de "Pensando..."
+    console.log('[sendMessage] Adding loading message');
+    const loadingMessage = this.addLoadingMessage();
+    console.log('[sendMessage] Loading message added:', loadingMessage);
 
     try {
+      console.log('[sendMessage] Generating response');
       const response = await this.generateResponse(content);
+      console.log('[sendMessage] Response received:', response);
+      
+      // Eliminar mensaje de carga antes de añadir respuesta
+      console.log('[sendMessage] Removing loading message');
+      this.removeLoadingMessage(loadingMessage);
+      
+      console.log('[sendMessage] Adding AI response');
       this.addMessage(response, 'ai');
+      console.log('[sendMessage] AI response added successfully');
     } catch (error) {
-      console.error('Error generating response:', error);
+      console.error('[sendMessage] Error generating response:', error);
+      
+      // Eliminar mensaje de carga antes de añadir error
+      this.removeLoadingMessage(loadingMessage);
+      
       const errorMessage = this.currentLanguage === 'es' 
         ? 'Disculpa, hubo un error al procesar tu mensaje. Por favor intenta nuevamente.'
         : 'Sorry, there was an error processing your message. Please try again.';
       this.addMessage(errorMessage, 'ai');
     } finally {
+      console.log('[sendMessage] Setting loading state to false');
       this.setLoading(false);
     }
   }
 
-  addMessage(content, sender) {
+  addLoadingMessage() {
     const messagesArea = document.getElementById('messagesArea');
     const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${sender}-message fade-in`;
+    messageDiv.className = 'message ai-message fade-in loading-message';
+    messageDiv.id = 'loading-message-temp';
     
     const now = new Date();
     const timeString = now.toTimeString().slice(0, 5);
     
     messageDiv.innerHTML = `
       <div class="message-content">
-        <div class="message-text">${this.formatMessage(content)}</div>
+        <div class="message-text">${this.currentLanguage === 'es' ? 'Pensando...' : 'Thinking...'}</div>
         <div class="message-time">${timeString}</div>
       </div>
     `;
     
     messagesArea.appendChild(messageDiv);
     messagesArea.scrollTop = messagesArea.scrollHeight;
+    
+    return messageDiv;
+  }
+
+  removeLoadingMessage(loadingMessage) {
+    if (loadingMessage && loadingMessage.parentNode) {
+      loadingMessage.parentNode.removeChild(loadingMessage);
+    }
+  }
+
+  addMessage(content, sender) {
+    console.log(`[addMessage] Adding ${sender} message:`, content.substring(0, 50));
+    const messagesArea = document.getElementById('messagesArea');
+    
+    if (!messagesArea) {
+      console.error('[addMessage] messagesArea not found!');
+      return;
+    }
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}-message fade-in`;
+    
+    const now = new Date();
+    const timeString = now.toTimeString().slice(0, 5);
+    
+    const formattedContent = this.formatMessage(content);
+    console.log('[addMessage] Formatted content:', formattedContent.substring(0, 50));
+    
+    messageDiv.innerHTML = `
+      <div class="message-content">
+        <div class="message-text">${formattedContent}</div>
+        <div class="message-time">${timeString}</div>
+      </div>
+    `;
+    
+    messagesArea.appendChild(messageDiv);
+    messagesArea.scrollTop = messagesArea.scrollHeight;
+    console.log('[addMessage] Message appended, total messages:', messagesArea.children.length);
   }
 
   formatMessage(content) {
@@ -336,10 +401,6 @@ class MinisterialAIEnhanced {
     if (loading) {
       sendButton.disabled = true;
       messageInput.disabled = true;
-      this.addMessage(
-        this.currentLanguage === 'es' ? 'Pensando...' : 'Thinking...', 
-        'ai'
-      );
     } else {
       sendButton.disabled = false;
       messageInput.disabled = false;
@@ -389,27 +450,39 @@ class MinisterialAIEnhanced {
   shouldUseOpenAI(message) {
     console.log('Checking shouldUseOpenAI for:', message);
     
-    // Palabras que indican consulta general
+    // Palabras que indican consulta general (incluye contenido teológico)
     const generalQueryKeywords = [
       'explica', 'explicar', 'cómo', 'qué', 'por qué', 'cuándo', 'dónde', 'quién', 'cuál',
       'explain', 'how', 'what', 'why', 'when', 'where', 'who', 'which', 'when', 'where',
       'que es', 'como funciona', 'que significa', 'ayuda con', 'help with',
-      'traduce', 'translate', 'resume', 'resume', 'crear', 'create',
+      'traduce', 'translate', 'resume', 'resume', 'crear', 'create', 'prepara', 'prepare',
       'planifica', 'plan', 'organiza', 'organize', 'sugiere', 'suggest',
-      'capital', 'capital de', 'geografía', 'countries', 'ciudades', 'cities'
+      'capital', 'capital de', 'geografía', 'countries', 'ciudades', 'cities',
+      // Términos teológicos específicos
+      'rapto', 'segunda venida', 'profecía', 'apocalipsis', 'profetas', 'millennial',
+      'interpretación', 'teología', 'doctrina', 'enseñanza', 'estudio bíblico',
+      'bosquejo', 'outline', 'sermón', 'sermon', 'predicación'
     ];
     
-    // Palabras que indican consultas ministeriales (NO usar OpenAI)
+    // Palabras que indican consultas administrativas del ministerio (NO usar OpenAI)
     const ministryKeywords = [
-      'ministerio', 'iglesia', 'pastor', 'servicio', 'horario', 'contacto',
-      'culto', 'predicación', 'sermón', 'bosquejo', 'biblia', 'oración',
-      'escuela dominical', 'ministery', 'church', 'pastor', 'service',
-      'biblical', 'prayer', 'sermon', 'outline', 'worship'
+      'ministerio', 'iglesia', 'pastor', 'horario', 'contacto', 'dirección', 'teléfono',
+      'servicios dominicales', 'estudios bíblicos', 'oración', 'donaciones', 'ofertas',
+      'ministery', 'church', 'pastor', 'service', 'schedule', 'contact', 'phone',
+      'address', 'donations', 'tithes', 'times', 'horario de servicios'
     ];
     
-    // Si contiene palabras ministeriales específicas, NO usar OpenAI
-    if (ministryKeywords.some(keyword => message.includes(keyword))) {
-      console.log('Ministry keyword detected, NOT using OpenAI');
+    // Palabras que indican navegacion a nuevas páginas (NO usar OpenAI)
+    const navigationKeywords = [
+      'generar sermón', 'crear sermón', 'sermones', 'devocional', 'devocionales',
+      'estudio bíblico', 'estudios', 'oraciones', 'eventos', 'calendario',
+      'generate sermon', 'create sermon', 'devotional', 'bible study', 'prayers', 'events'
+    ];
+    
+    // Si contiene palabras ministeriales o de navegación, NO usar OpenAI
+    if (ministryKeywords.some(keyword => message.includes(keyword)) ||
+        navigationKeywords.some(keyword => message.includes(keyword))) {
+      console.log('Ministry/navigation keyword detected, NOT using OpenAI');
       return false;
     }
     
@@ -433,6 +506,11 @@ class MinisterialAIEnhanced {
   }
 
   async handleMinistrySpecificQuery(message) {
+    // Detectar comandos de navegación a nuevas páginas
+    if (this.isNavigationRequest(message)) {
+      return this.handleNavigationRequest(message);
+    }
+
     if (this.isMinistryInfoQuery(message)) {
       return this.generateMinistryResponse(message);
     }
@@ -460,6 +538,67 @@ class MinisterialAIEnhanced {
     }
     
     return this.generateMinistryResponse(message);
+  }
+
+  // NUEVA FUNCIÓN: Detectar solicitudes de navegación
+  isNavigationRequest(message) {
+    const navigationKeywords = [
+      'generar sermón', 'crear sermón', 'sermones', 'biblioteca de sermones',
+      'devocional', 'devocionales', 'devocional del día',
+      'estudio bíblico', 'estudios', 'crear estudio',
+      'oraciones', 'biblioteca de oraciones', 'oración',
+      'eventos', 'calendario', 'próximos eventos',
+      'generate sermon', 'create sermon', 'sermons',
+      'devotional', 'devotionals', 'daily devotional',
+      'bible study', 'create study', 'prayers', 'events', 'calendar'
+    ];
+    
+    return navigationKeywords.some(keyword => message.includes(keyword));
+  }
+
+  // NUEVA FUNCIÓN: Manejar navegación
+  handleNavigationRequest(message) {
+    const responses = {
+      es: {
+        sermons: '¡Excelente! Te llevaré al **Generador de Sermones** donde podrás crear sermones inspiradores con IA.\n\n[Ir a Sermones](/sermons.html)\n\n¿Necesitas ayuda con algo más?',
+        devotionals: '¡Perfecto! Te llevaré a la sección de **Devocionales Diarios** para alimentar tu espíritu.\n\n[Ir a Devocionales](/devotionals.html)\n\n¿En qué más puedo ayudarte?',
+        studies: '¡Genial! Te llevaré al **Generador de Estudios Bíblicos** para profundizar en la Palabra.\n\n[Ir a Estudios Bíblicos](/bible-study.html)\n\n¿Algo más que necesites?',
+        prayers: '¡Claro! Te llevaré a la **Biblioteca de Oraciones** con oraciones para cada situación.\n\n[Ir a Oraciones](/prayers.html)\n\n¿Puedo ayudarte con algo más?',
+        events: '¡Muy bien! Te llevaré al **Calendario de Eventos** del ministerio.\n\n[Ir a Eventos](/events.html)\n\n¿Qué más necesitas?'
+      },
+      en: {
+        sermons: 'Excellent! I\'ll take you to the **Sermon Generator** where you can create inspiring sermons with AI.\n\n[Go to Sermons](/sermons.html)\n\nNeed help with anything else?',
+        devotionals: 'Perfect! I\'ll take you to the **Daily Devotionals** section to nourish your spirit.\n\n[Go to Devotionals](/devotionals.html)\n\nWhat else can I help you with?',
+        studies: 'Great! I\'ll take you to the **Bible Study Generator** to deepen your understanding of the Word.\n\n[Go to Bible Studies](/bible-study.html)\n\nAnything else you need?',
+        prayers: 'Of course! I\'ll take you to the **Prayer Library** with prayers for every situation.\n\n[Go to Prayers](/prayers.html)\n\nCan I help you with anything else?',
+        events: 'Very well! I\'ll take you to the ministry\'s **Event Calendar**.\n\n[Go to Events](/events.html)\n\nWhat else do you need?'
+      }
+    };
+
+    const lang = this.currentLanguage;
+    
+    if (message.includes('sermón') || message.includes('sermon')) {
+      setTimeout(() => window.location.href = '/sermons.html', 2000);
+      return responses[lang].sermons;
+    }
+    if (message.includes('devocional') || message.includes('devotional')) {
+      setTimeout(() => window.location.href = '/devotionals.html', 2000);
+      return responses[lang].devotionals;
+    }
+    if (message.includes('estudio') || message.includes('study')) {
+      setTimeout(() => window.location.href = '/bible-study.html', 2000);
+      return responses[lang].studies;
+    }
+    if (message.includes('oracion') || message.includes('prayer')) {
+      setTimeout(() => window.location.href = '/prayers.html', 2000);
+      return responses[lang].prayers;
+    }
+    if (message.includes('evento') || message.includes('event') || message.includes('calendario') || message.includes('calendar')) {
+      setTimeout(() => window.location.href = '/events.html', 2000);
+      return responses[lang].events;
+    }
+
+    return responses[lang].sermons;
   }
 
   // NUEVA FUNCIÓN: Llamada a OpenAI API

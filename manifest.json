@@ -1,0 +1,55 @@
+{
+  "name": "Ministerio AI - Plataforma Ministerial Completa",
+  "short_name": "Ministerio AI",
+  "description": "Plataforma integral para el ministerio con generador de sermones, devocionales, estudios bíblicos, oraciones y más",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#667eea",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "education", "productivity"],
+  "screenshots": [
+    {
+      "src": "/screenshot-1.png",
+      "sizes": "540x720",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Generador de Sermones",
+      "short_name": "Sermones",
+      "description": "Genera sermones inspiradores con IA",
+      "url": "/sermons.html",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Devocional del Día",
+      "short_name": "Devocional",
+      "description": "Lee el devocional de hoy",
+      "url": "/devotionals.html",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Biblioteca de Oraciones",
+      "short_name": "Oraciones",
+      "description": "Encuentra oraciones para cada situación",
+      "url": "/prayers.html",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

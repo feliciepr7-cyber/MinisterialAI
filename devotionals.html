@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Devocional Diario - Ministerio AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+      .devotional-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .devotional-card h2 {
+        color: #667eea;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      .devotional-verse {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        font-style: italic;
+        margin: 1.5rem 0;
+        text-align: center;
+        font-size: 1.1rem;
+      }
+      .devotional-reflection {
+        line-height: 1.8;
+        color: #333;
+        margin: 1.5rem 0;
+        font-family: 'Lora', serif;
+      }
+      .devotional-prayer {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-left: 4px solid #667eea;
+        border-radius: 8px;
+        font-style: italic;
+        margin: 1.5rem 0;
+      }
+      .devotional-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .devotional-actions button {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      .btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+      .favorites-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .favorite-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .favorite-card:hover {
+        transform: translateY(-4px);
+      }
+      .favorite-card h4 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+      .loading {
+        text-align: center;
+        padding: 3rem;
+        color: #667eea;
+        font-size: 1.2rem;
+      }
+      .nav-links {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .nav-links a {
+        padding: 0.5rem 1rem;
+        background: #f0f0f0;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+      }
+      .nav-links a:hover {
+        background: #667eea;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo-section">
+            <div class="heart-icon">✝️</div>
+            <div class="title-section">
+              <h1 class="main-title">Devocional Diario</h1>
+              <p class="subtitle">Alimento espiritual para cada día</p>
+            </div>
+          </div>
+          <div class="header-actions">
+            <a href="/" class="home-btn">
+              <span>Inicio</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="main-container">
+      <div class="container">
+        <div class="nav-links">
+          <a href="/sermons.html">Sermones</a>
+          <a href="/devotionals.html">Devocionales</a>
+          <a href="/bible-study.html">Estudios</a>
+          <a href="/prayers.html">Oraciones</a>
+          <a href="/events.html">Eventos</a>
+        </div>
+
+        <div id="loadingMessage" class="loading" style="display: none;">
+          Generando devocional inspirador para hoy...
+        </div>
+
+        <div id="devotionalCard" class="devotional-card" style="display: none;">
+          <h2 id="devotionalDate"></h2>
+          <div id="devotionalTheme" style="text-align: center; color: #999; margin-bottom: 1rem;"></div>
+          <div id="devotionalVerse" class="devotional-verse"></div>
+          <div id="devotionalReflection" class="devotional-reflection"></div>
+          <div id="devotionalPrayer" class="devotional-prayer"></div>
+          <div class="devotional-actions">
+            <button class="btn-primary" id="saveToFavoritesBtn">Guardar en Favoritos</button>
+            <button class="btn-secondary" id="generateNewBtn">Generar Nuevo</button>
+            <button class="btn-secondary" id="shareBtn">Compartir</button>
+          </div>
+        </div>
+
+        <h2 style="text-align: center; margin-top: 3rem;">Devocionales Favoritos</h2>
+        <div id="favoritesGrid" class="favorites-grid"></div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { generateDevotional, getFavoriteDevotionals } from './supabase-client.js';
+
+      const loadingDiv = document.getElementById('loadingMessage');
+      const devotionalCard = document.getElementById('devotionalCard');
+      const dateEl = document.getElementById('devotionalDate');
+      const themeEl = document.getElementById('devotionalTheme');
+      const verseEl = document.getElementById('devotionalVerse');
+      const reflectionEl = document.getElementById('devotionalReflection');
+      const prayerEl = document.getElementById('devotionalPrayer');
+      const saveBtn = document.getElementById('saveToFavoritesBtn');
+      const generateBtn = document.getElementById('generateNewBtn');
+      const shareBtn = document.getElementById('shareBtn');
+      const favoritesGrid = document.getElementById('favoritesGrid');
+
+      let currentDevotional = null;
+
+      // Generar devocional del día
+      async function loadTodaysDevotional(saveToFavorites = false) {
+        loadingDiv.style.display = 'block';
+        devotionalCard.style.display = 'none';
+
+        try {
+          const today = new Date().toISOString().split('T')[0];
+          const result = await generateDevotional(today, saveToFavorites);
+          
+          currentDevotional = result;
+
+          dateEl.textContent = new Date(result.date).toLocaleDateString('es-ES', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+          themeEl.textContent = `Tema: ${result.theme}`;
+          verseEl.textContent = result.verse;
+          reflectionEl.textContent = result.reflection;
+          prayerEl.innerHTML = `<strong>Oración:</strong><br>${result.prayer}`;
+
+          devotionalCard.style.display = 'block';
+          loadingDiv.style.display = 'none';
+
+          // Recargar favoritos si se guardó
+          if (saveToFavorites) {
+            loadFavorites();
+          }
+        } catch (error) {
+          console.error('Error generando devocional:', error);
+          loadingDiv.innerHTML = 'Error al generar el devocional. Verifica la configuración de API.';
+        }
+      }
+
+      // Guardar a favoritos
+      saveBtn.addEventListener('click', async () => {
+        const originalText = saveBtn.textContent;
+        saveBtn.textContent = 'Guardando...';
+        saveBtn.disabled = true;
+
+        try {
+          await loadTodaysDevotional(true);
+          saveBtn.textContent = 'Guardado!';
+          setTimeout(() => {
+            saveBtn.textContent = originalText;
+            saveBtn.disabled = false;
+          }, 2000);
+        } catch (error) {
+          saveBtn.textContent = 'Error';
+          saveBtn.disabled = false;
+        }
+      });
+
+      // Generar nuevo devocional
+      generateBtn.addEventListener('click', () => {
+        loadTodaysDevotional(false);
+      });
+
+      // Compartir devocional
+      shareBtn.addEventListener('click', () => {
+        if (currentDevotional) {
+          const text = `Devocional del día\n\n${currentDevotional.verse}\n\n${currentDevotional.reflection}\n\nOracion: ${currentDevotional.prayer}`;
+          
+          if (navigator.share) {
+            navigator.share({
+              title: 'Devocional del Día - Ministerio AI',
+              text: text
+            }).catch(err => console.log('Error al compartir:', err));
+          } else {
+            navigator.clipboard.writeText(text);
+            alert('Devocional copiado al portapapeles');
+          }
+        }
+      });
+
+      // Cargar favoritos
+      async function loadFavorites() {
+        try {
+          const favorites = await getFavoriteDevotionals(12);
+          
+          favoritesGrid.innerHTML = favorites.map(fav => `
+            <div class="favorite-card" onclick="viewFavorite('${fav.id}')">
+              <h4>${new Date(fav.devotional_date).toLocaleDateString('es-ES')}</h4>
+              <p><strong>Tema:</strong> ${fav.theme}</p>
+              <p style="font-size: 0.9rem; color: #666;">${fav.verse.substring(0, 100)}...</p>
+            </div>
+          `).join('');
+        } catch (error) {
+          console.error('Error cargando favoritos:', error);
+          favoritesGrid.innerHTML = '<p>No hay devocionales favoritos guardados.</p>';
+        }
+      }
+
+      // Ver favorito
+      window.viewFavorite = async (favId) => {
+        try {
+          const { supabase } = await import('./supabase-client.js');
+          const { data, error } = await supabase
+            .from('favorite_devotionals')
+            .select('*')
+            .eq('id', favId)
+            .maybeSingle();
+
+          if (error) throw error;
+
+          currentDevotional = data;
+
+          dateEl.textContent = new Date(data.devotional_date).toLocaleDateString('es-ES', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+          themeEl.textContent = `Tema: ${data.theme}`;
+          verseEl.textContent = data.verse;
+          reflectionEl.textContent = data.reflection;
+          prayerEl.innerHTML = `<strong>Oración:</strong><br>${data.prayer}`;
+
+          devotionalCard.style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (error) {
+          console.error('Error cargando favorito:', error);
+          alert('Error al cargar el devocional.');
+        }
+      };
+
+      // Cargar al inicio
+      loadTodaysDevotional();
+      loadFavorites();
+    </script>
+  </body>
+</html>

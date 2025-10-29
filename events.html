@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eventos del Ministerio - Ministerio AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+      .calendar-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+      }
+      .event-list {
+        display: grid;
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .event-card {
+        background: white;
+        border-left: 4px solid #667eea;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 1.5rem;
+        transition: transform 0.2s;
+      }
+      .event-card:hover {
+        transform: translateX(8px);
+      }
+      .event-date {
+        text-align: center;
+        padding: 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 8px;
+        min-width: 100px;
+      }
+      .event-date .day {
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .event-date .month {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        margin-top: 0.25rem;
+      }
+      .event-date .time {
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        opacity: 0.9;
+      }
+      .event-details h3 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+      .event-type-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-right: 0.5rem;
+      }
+      .event-type-service { background: #e3f2fd; color: #1976d2; }
+      .event-type-study { background: #f3e5f5; color: #7b1fa2; }
+      .event-type-prayer { background: #fff3e0; color: #ef6c00; }
+      .event-type-special { background: #ffebee; color: #c62828; }
+      .regular-services {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+      }
+      .regular-services h2 {
+        margin-bottom: 1.5rem;
+      }
+      .service-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+      .service-item {
+        background: rgba(255,255,255,0.1);
+        padding: 1.5rem;
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+      }
+      .service-item h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+      .service-item p {
+        font-size: 0.95rem;
+        opacity: 0.9;
+      }
+      .nav-links {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .nav-links a {
+        padding: 0.5rem 1rem;
+        background: #f0f0f0;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+      }
+      .nav-links a:hover {
+        background: #667eea;
+        color: white;
+      }
+      .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: #999;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo-section">
+            <div class="heart-icon">📅</div>
+            <div class="title-section">
+              <h1 class="main-title">Eventos del Ministerio</h1>
+              <p class="subtitle">Únete a nuestras actividades</p>
+            </div>
+          </div>
+          <div class="header-actions">
+            <a href="/" class="home-btn">
+              <span>Inicio</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="main-container">
+      <div class="container">
+        <div class="nav-links">
+          <a href="/sermons.html">Sermones</a>
+          <a href="/devotionals.html">Devocionales</a>
+          <a href="/bible-study.html">Estudios</a>
+          <a href="/prayers.html">Oraciones</a>
+          <a href="/events.html">Eventos</a>
+        </div>
+
+        <div class="regular-services">
+          <h2>Servicios Regulares</h2>
+          <div class="service-grid">
+            <div class="service-item">
+              <h3>Domingos</h3>
+              <p>Servicio Principal</p>
+              <p><strong>11:00 AM</strong></p>
+            </div>
+            <div class="service-item">
+              <h3>Miércoles</h3>
+              <p>Estudio Bíblico</p>
+              <p><strong>7:00 PM</strong></p>
+            </div>
+            <div class="service-item">
+              <h3>Viernes</h3>
+              <p>Servicio Evangelístico</p>
+              <p><strong>7:00 PM</strong></p>
+            </div>
+          </div>
+          <p style="text-align: center; margin-top: 1.5rem; font-size: 0.95rem;">
+            📍 2702 New Hampshire St, Lake Station, IN 46405<br>
+            📞 (219) 246-5775
+          </p>
+        </div>
+
+        <div class="calendar-container">
+          <h2>Próximos Eventos Especiales</h2>
+          <div id="eventList" class="event-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { getMinistryEvents } from './supabase-client.js';
+
+      const eventList = document.getElementById('eventList');
+
+      // Cargar eventos
+      async function loadEvents() {
+        try {
+          const events = await getMinistryEvents();
+
+          if (!events || events.length === 0) {
+            eventList.innerHTML = `
+              <div class="empty-state">
+                <p>No hay eventos especiales programados en este momento.</p>
+                <p>Únete a nuestros servicios regulares cada semana.</p>
+              </div>
+            `;
+            return;
+          }
+
+          eventList.innerHTML = events.map(event => {
+            const eventDate = new Date(event.event_date);
+            const day = eventDate.getDate();
+            const month = eventDate.toLocaleDateString('es-ES', { month: 'short' });
+            const time = eventDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+            
+            let typeClass = 'event-type-service';
+            let typeName = 'Servicio';
+            
+            if (event.event_type === 'study') {
+              typeClass = 'event-type-study';
+              typeName = 'Estudio';
+            } else if (event.event_type === 'prayer') {
+              typeClass = 'event-type-prayer';
+              typeName = 'Oración';
+            } else if (event.event_type === 'special') {
+              typeClass = 'event-type-special';
+              typeName = 'Evento Especial';
+            }
+
+            return `
+              <div class="event-card">
+                <div class="event-date">
+                  <div class="day">${day}</div>
+                  <div class="month">${month}</div>
+                  <div class="time">${time}</div>
+                </div>
+                <div class="event-details">
+                  <div>
+                    <span class="event-type-badge ${typeClass}">${typeName}</span>
+                  </div>
+                  <h3>${event.title}</h3>
+                  <p>${event.description || 'Te esperamos en este evento especial'}</p>
+                  ${event.location ? `<p style="color: #667eea; margin-top: 0.5rem;">📍 ${event.location}</p>` : ''}
+                </div>
+              </div>
+            `;
+          }).join('');
+        } catch (error) {
+          console.error('Error cargando eventos:', error);
+          eventList.innerHTML = `
+            <div class="empty-state">
+              <p>No se pudieron cargar los eventos en este momento.</p>
+            </div>
+          `;
+        }
+      }
+
+      // Cargar al inicio
+      loadEvents();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oraciones - Ministerio AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+      .prayer-search {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+      .prayer-search select {
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: 'Inter', sans-serif;
+        margin: 1rem;
+      }
+      .prayer-categories {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+      .prayer-categories button {
+        padding: 0.75rem 1.5rem;
+        background: #f0f0f0;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s;
+      }
+      .prayer-categories button:hover, .prayer-categories button.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      .prayer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .prayer-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+      }
+      .prayer-card:hover {
+        transform: translateY(-4px);
+      }
+      .prayer-card h3 {
+        color: #667eea;
+        margin-bottom: 1rem;
+      }
+      .prayer-card .category-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: #667eea;
+        color: white;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        margin-bottom: 0.75rem;
+      }
+      .prayer-text {
+        font-family: 'Lora', serif;
+        font-style: italic;
+        line-height: 1.8;
+        color: #444;
+        margin: 1rem 0;
+      }
+      .weather-prayer-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .weather-prayer-section button {
+        background: white;
+        color: #667eea;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 1rem;
+      }
+      .nav-links {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .nav-links a {
+        padding: 0.5rem 1rem;
+        background: #f0f0f0;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+      }
+      .nav-links a:hover {
+        background: #667eea;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo-section">
+            <div class="heart-icon">🙏</div>
+            <div class="title-section">
+              <h1 class="main-title">Biblioteca de Oraciones</h1>
+              <p class="subtitle">Encuentra la oración perfecta para cada momento</p>
+            </div>
+          </div>
+          <div class="header-actions">
+            <a href="/" class="home-btn">
+              <span>Inicio</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="main-container">
+      <div class="container">
+        <div class="nav-links">
+          <a href="/sermons.html">Sermones</a>
+          <a href="/devotionals.html">Devocionales</a>
+          <a href="/bible-study.html">Estudios</a>
+          <a href="/prayers.html">Oraciones</a>
+          <a href="/events.html">Eventos</a>
+        </div>
+
+        <div class="weather-prayer-section">
+          <h2>Oración Contextual del Día</h2>
+          <p>Genera una oración personalizada basada en el clima actual</p>
+          <button id="generateWeatherPrayerBtn">Generar Oración del Día</button>
+          <div id="weatherPrayerResult" style="margin-top: 1.5rem; display: none;">
+            <div style="background: rgba(255,255,255,0.2); padding: 1.5rem; border-radius: 8px;">
+              <p id="weatherPrayerText" style="font-style: italic; line-height: 1.8;"></p>
+              <p id="weatherContext" style="margin-top: 1rem; font-size: 0.9rem;"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="prayer-search">
+          <h3>Buscar Oraciones por Categoría</h3>
+          <div class="prayer-categories">
+            <button class="active" data-category="all">Todas</button>
+            <button data-category="familia">Familia</button>
+            <button data-category="salud">Salud</button>
+            <button data-category="trabajo">Trabajo</button>
+            <button data-category="adoracion">Adoración</button>
+            <button data-category="gratitud">Gratitud</button>
+            <button data-category="proteccion">Protección</button>
+            <button data-category="sabiduria">Sabiduría</button>
+          </div>
+        </div>
+
+        <div id="prayerGrid" class="prayer-grid"></div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { getPrayers, getWeatherPrayer } from './supabase-client.js';
+
+      const weatherPrayerBtn = document.getElementById('generateWeatherPrayerBtn');
+      const weatherPrayerResult = document.getElementById('weatherPrayerResult');
+      const weatherPrayerText = document.getElementById('weatherPrayerText');
+      const weatherContext = document.getElementById('weatherContext');
+      const prayerGrid = document.getElementById('prayerGrid');
+      const categoryButtons = document.querySelectorAll('.prayer-categories button');
+
+      let currentCategory = 'all';
+
+      // Generar oración basada en clima
+      weatherPrayerBtn.addEventListener('click', async () => {
+        weatherPrayerBtn.textContent = 'Generando...';
+        weatherPrayerBtn.disabled = true;
+
+        try {
+          const result = await getWeatherPrayer('Lake Station, IN', 'general');
+          
+          weatherPrayerText.textContent = result.prayer;
+          weatherContext.textContent = `Clima actual en ${result.city}: ${result.context}`;
+          weatherPrayerResult.style.display = 'block';
+
+          weatherPrayerBtn.textContent = 'Generar Nueva Oración';
+          weatherPrayerBtn.disabled = false;
+        } catch (error) {
+          console.error('Error generando oración:', error);
+          alert('Error al generar la oración. Verifica la configuración de APIs.');
+          weatherPrayerBtn.textContent = 'Generar Oración del Día';
+          weatherPrayerBtn.disabled = false;
+        }
+      });
+
+      // Filtrar por categoría
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          categoryButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          currentCategory = button.dataset.category;
+          loadPrayers();
+        });
+      });
+
+      // Cargar oraciones
+      async function loadPrayers() {
+        try {
+          const category = currentCategory === 'all' ? null : currentCategory;
+          const prayers = await getPrayers(category);
+
+          // Si no hay oraciones en DB, mostrar oraciones predefinidas
+          if (!prayers || prayers.length === 0) {
+            prayerGrid.innerHTML = getDefaultPrayers(currentCategory);
+            return;
+          }
+
+          prayerGrid.innerHTML = prayers.map(prayer => `
+            <div class="prayer-card">
+              <span class="category-badge">${prayer.category}</span>
+              <h3>${prayer.title}</h3>
+              <div class="prayer-text">${prayer.content}</div>
+              ${prayer.is_official ? '<p style="color: #667eea; font-weight: 600; margin-top: 1rem;">✓ Oración Oficial del Ministerio</p>' : ''}
+            </div>
+          `).join('');
+        } catch (error) {
+          console.error('Error cargando oraciones:', error);
+          prayerGrid.innerHTML = getDefaultPrayers(currentCategory);
+        }
+      }
+
+      // Oraciones predefinidas por categoría
+      function getDefaultPrayers(category) {
+        const defaultPrayers = {
+          familia: [
+            { title: 'Por Unidad Familiar', content: 'Señor, te pedimos que bendigas a cada miembro de nuestra familia. Que tu amor sea el lazo que nos une. Ayúdanos a perdonarnos, apoyarnos y amarnos como Tú nos amas. En el nombre de Jesús, Amén.' },
+            { title: 'Por los Hijos', content: 'Padre celestial, te entregamos a nuestros hijos. Protégelos, guíalos y llénalos de tu Espíritu Santo. Que crezcan en sabiduría y gracia delante de ti. Amén.' }
+          ],
+          salud: [
+            { title: 'Por Sanidad', content: 'Señor Jesús, tú eres el Gran Médico. Te pedimos sanidad para nuestros cuerpos. Toca cada área de enfermedad con tu poder sanador. Restaura nuestra salud completamente. Amén.' },
+            { title: 'Por Fortaleza', content: 'Dios todopoderoso, fortalece nuestro cuerpo, alma y espíritu. Renueva nuestras fuerzas como las del águila. En ti encontramos salud y vida. Amén.' }
+          ],
+          trabajo: [
+            { title: 'Por Provisión', content: 'Padre proveedor, tú conoces nuestras necesidades. Provee trabajo digno y bendice el fruto de nuestras manos. Que todo lo que hagamos sea para tu gloria. Amén.' },
+            { title: 'Por Sabiduría Laboral', content: 'Señor, dame sabiduría en mi trabajo. Ayúdame a ser luz en mi lugar de empleo y a trabajar como si te sirviera a ti. Amén.' }
+          ],
+          adoracion: [
+            { title: 'Alabanza Matutina', content: 'Señor, este nuevo día te alabo y te adoro. Grande eres Tú y digno de toda alabanza. Mi alma te magnifica y mi espíritu se regocija en ti. Amén.' },
+            { title: 'Adoración Sincera', content: 'Dios mío, te adoro en espíritu y verdad. Eres santo, poderoso y lleno de amor. Toda la gloria, honra y adoración son para ti. Amén.' }
+          ],
+          gratitud: [
+            { title: 'Acción de Gracias', content: 'Padre bueno, gracias por tu amor incondicional. Gracias por tus bendiciones, por tu fidelidad y por cada día de vida. Todo lo que tengo viene de ti. Amén.' },
+            { title: 'Por las Bendiciones', content: 'Señor, mi corazón rebosa de gratitud. Gracias por tu provisión, por tu protección y por tu presencia constante en mi vida. Amén.' }
+          ],
+          proteccion: [
+            { title: 'Protección Divina', content: 'Señor, cúbrenos con tu manto de protección. Que tus ángeles acampen alrededor nuestro. Líbranos de todo mal y peligro. En el nombre poderoso de Jesús, Amén.' },
+            { title: 'Por Seguridad', content: 'Padre celestial, tú eres nuestro refugio y fortaleza. Protege nuestro hogar, nuestras familias y cada paso que damos. Amén.' }
+          ],
+          sabiduria: [
+            { title: 'Por Discernimiento', content: 'Dios de sabiduría, te pido discernimiento para tomar las decisiones correctas. Ilumina mi entendimiento y guía mis pasos. Amén.' },
+            { title: 'Por Entendimiento', content: 'Señor, dame un corazón sabio para entender tu voluntad. Que tu Palabra ilumine mi camino y tu Espíritu me guíe. Amén.' }
+          ]
+        };
+
+        const prayers = category === 'all' 
+          ? Object.values(defaultPrayers).flat()
+          : defaultPrayers[category] || [];
+
+        return prayers.map(prayer => `
+          <div class="prayer-card">
+            <span class="category-badge">${category === 'all' ? 'General' : category}</span>
+            <h3>${prayer.title}</h3>
+            <div class="prayer-text">${prayer.content}</div>
+          </div>
+        `).join('');
+      }
+
+      // Cargar al inicio
+      loadPrayers();
+    </script>
+  </body>
+</html>
