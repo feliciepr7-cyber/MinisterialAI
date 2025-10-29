@@ -5,8 +5,9 @@ class MinisterialAIEnhanced {
   constructor() {
     this.currentLanguage = 'es';
     this.isLoading = false;
-    this.openaiApiKey = ''; // Configurar tu API key de OpenAI aquí
+    this.openaiApiKey = localStorage.getItem('openai_api_key') || ''; // Cargar desde localStorage
     this.openaiModel = 'gpt-3.5-turbo'; // o 'gpt-4' si tienes acceso
+    console.log('API Key loaded from localStorage:', this.openaiApiKey ? 'Present' : 'Not found');
     this.init();
   }
 
@@ -350,13 +351,23 @@ class MinisterialAIEnhanced {
   async generateResponse(userMessage) {
     const message = userMessage.toLowerCase().trim();
     
+    console.log('=== GENERATE RESPONSE DEBUG ===');
+    console.log('User message:', userMessage);
+    console.log('Message (lowercase):', message);
+    console.log('API Key present:', this.openaiApiKey ? 'YES' : 'NO');
+    console.log('Should use OpenAI:', this.shouldUseOpenAI(message));
+    console.log('Is ministry specific:', this.isMinistrySpecificQuery(message));
+    console.log('Is scripture query:', this.isScriptureQuery(message));
+    
     // 1. PRIMERO: Verificar consultas ministeriales específicas
     if (this.isMinistrySpecificQuery(message)) {
+      console.log('Using ministry specific response');
       return await this.handleMinistrySpecificQuery(message);
     }
     
     // 2. SEGUNDO: Verificar consultas bíblicas
     if (this.isScriptureQuery(message)) {
+      console.log('Using scripture search');
       const scripture = this.searchScripture(message);
       if (scripture) {
         return `${this.translations.scriptureSearch[this.currentLanguage]}\n\n**${scripture.reference}**\n\n${scripture.text}\n\nQue este pasaje te sea de bendición y ánimo. 🙏`;
@@ -365,22 +376,27 @@ class MinisterialAIEnhanced {
     
     // 3. TERCERO: Usar OpenAI para consultas generales
     if (this.openaiApiKey && this.shouldUseOpenAI(message)) {
+      console.log('Using OpenAI API');
       return await this.callOpenAI(userMessage);
     }
     
     // 4. CUARTO: Respuesta de fallback con IA
+    console.log('Using fallback response');
     return this.getFallbackResponse();
   }
 
   // Determinar si debe usar OpenAI
   shouldUseOpenAI(message) {
+    console.log('Checking shouldUseOpenAI for:', message);
+    
     // Palabras que indican consulta general
     const generalQueryKeywords = [
-      'explica', 'explicar', 'cómo', 'qué', 'por qué', 'cuándo', 'dónde', 'quién',
-      'explain', 'how', 'what', 'why', 'when', 'where', 'who', 'which',
+      'explica', 'explicar', 'cómo', 'qué', 'por qué', 'cuándo', 'dónde', 'quién', 'cuál',
+      'explain', 'how', 'what', 'why', 'when', 'where', 'who', 'which', 'when', 'where',
       'que es', 'como funciona', 'que significa', 'ayuda con', 'help with',
       'traduce', 'translate', 'resume', 'resume', 'crear', 'create',
-      'planifica', 'plan', 'organiza', 'organize', 'sugiere', 'suggest'
+      'planifica', 'plan', 'organiza', 'organize', 'sugiere', 'suggest',
+      'capital', 'capital de', 'geografía', 'countries', 'ciudades', 'cities'
     ];
     
     // Palabras que indican consultas ministeriales (NO usar OpenAI)
@@ -393,11 +409,14 @@ class MinisterialAIEnhanced {
     
     // Si contiene palabras ministeriales específicas, NO usar OpenAI
     if (ministryKeywords.some(keyword => message.includes(keyword))) {
+      console.log('Ministry keyword detected, NOT using OpenAI');
       return false;
     }
     
     // Si contiene palabras de consulta general, SÍ usar OpenAI
-    return generalQueryKeywords.some(keyword => message.includes(keyword));
+    const shouldUse = generalQueryKeywords.some(keyword => message.includes(keyword));
+    console.log('General query detected:', shouldUse);
+    return shouldUse;
   }
 
   // Consultas ministeriales específicas
@@ -560,9 +579,9 @@ class MinisterialAIEnhanced {
 👥 Pastores: ${ministry.pastors}
 
 ${this.translations.ministryServices[this.currentLanguage]}
-• Servicios dominicales: 10:00 AM y 6:00 PM
+• Servicios dominicales: 11:00 AM
 • Estudios bíblicos: Miércoles 7:00 PM
-• Oración: Sábados 9:00 AM
+• Viernes: Servicio Evangélico 7:00 PM
 
 💝 **Donaciones:** ${ministry.donations}`;
   }
