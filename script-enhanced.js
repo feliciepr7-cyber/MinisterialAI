@@ -560,41 +560,41 @@ class MinisterialAIEnhanced {
   handleNavigationRequest(message) {
     const responses = {
       es: {
-        sermons: '¡Excelente! Te llevaré al **Generador de Sermones** donde podrás crear sermones inspiradores con IA.\n\n[Ir a Sermones](/sermons.html)\n\n¿Necesitas ayuda con algo más?',
-        devotionals: '¡Perfecto! Te llevaré a la sección de **Devocionales Diarios** para alimentar tu espíritu.\n\n[Ir a Devocionales](/devotionals.html)\n\n¿En qué más puedo ayudarte?',
-        studies: '¡Genial! Te llevaré al **Generador de Estudios Bíblicos** para profundizar en la Palabra.\n\n[Ir a Estudios Bíblicos](/bible-study.html)\n\n¿Algo más que necesites?',
-        prayers: '¡Claro! Te llevaré a la **Biblioteca de Oraciones** con oraciones para cada situación.\n\n[Ir a Oraciones](/prayers.html)\n\n¿Puedo ayudarte con algo más?',
-        events: '¡Muy bien! Te llevaré al **Calendario de Eventos** del ministerio.\n\n[Ir a Eventos](/events.html)\n\n¿Qué más necesitas?'
+        sermons: '¡Excelente! Te llevaré al **Generador de Sermones** donde podrás crear sermones inspiradores con IA.\n\n[Ir a Sermones](sermons.html)\n\n¿Necesitas ayuda con algo más?',
+        devotionals: '¡Perfecto! Te llevaré a la sección de **Devocionales Diarios** para alimentar tu espíritu.\n\n[Ir a Devocionales](devotionals.html)\n\n¿En qué más puedo ayudarte?',
+        studies: '¡Genial! Te llevaré al **Generador de Estudios Bíblicos** para profundizar en la Palabra.\n\n[Ir a Estudios Bíblicos](bible-study.html)\n\n¿Algo más que necesites?',
+        prayers: '¡Claro! Te llevaré a la **Biblioteca de Oraciones** con oraciones para cada situación.\n\n[Ir a Oraciones](prayers.html)\n\n¿Puedo ayudarte con algo más?',
+        events: '¡Muy bien! Te llevaré al **Calendario de Eventos** del ministerio.\n\n[Ir a Eventos](events.html)\n\n¿Qué más necesitas?'
       },
       en: {
-        sermons: 'Excellent! I\'ll take you to the **Sermon Generator** where you can create inspiring sermons with AI.\n\n[Go to Sermons](/sermons.html)\n\nNeed help with anything else?',
-        devotionals: 'Perfect! I\'ll take you to the **Daily Devotionals** section to nourish your spirit.\n\n[Go to Devotionals](/devotionals.html)\n\nWhat else can I help you with?',
-        studies: 'Great! I\'ll take you to the **Bible Study Generator** to deepen your understanding of the Word.\n\n[Go to Bible Studies](/bible-study.html)\n\nAnything else you need?',
-        prayers: 'Of course! I\'ll take you to the **Prayer Library** with prayers for every situation.\n\n[Go to Prayers](/prayers.html)\n\nCan I help you with anything else?',
-        events: 'Very well! I\'ll take you to the ministry\'s **Event Calendar**.\n\n[Go to Events](/events.html)\n\nWhat else do you need?'
+        sermons: 'Excellent! I\'ll take you to the **Sermon Generator** where you can create inspiring sermons with AI.\n\n[Go to Sermons](sermons.html)\n\nNeed help with anything else?',
+        devotionals: 'Perfect! I\'ll take you to the **Daily Devotionals** section to nourish your spirit.\n\n[Go to Devotionals](devotionals.html)\n\nWhat else can I help you with?',
+        studies: 'Great! I\'ll take you to the **Bible Study Generator** to deepen your understanding of the Word.\n\n[Go to Bible Studies](bible-study.html)\n\nAnything else you need?',
+        prayers: 'Of course! I\'ll take you to the **Prayer Library** with prayers for every situation.\n\n[Go to Prayers](prayers.html)\n\nCan I help you with anything else?',
+        events: 'Very well! I\'ll take you to the ministry\'s **Event Calendar**.\n\n[Go to Events](events.html)\n\nWhat else do you need?'
       }
     };
 
     const lang = this.currentLanguage;
     
     if (message.includes('sermón') || message.includes('sermon')) {
-      setTimeout(() => window.location.href = '/sermons.html', 2000);
+      setTimeout(() => window.location.href = 'sermons.html', 2000);
       return responses[lang].sermons;
     }
     if (message.includes('devocional') || message.includes('devotional')) {
-      setTimeout(() => window.location.href = '/devotionals.html', 2000);
+      setTimeout(() => window.location.href = 'devotionals.html', 2000);
       return responses[lang].devotionals;
     }
     if (message.includes('estudio') || message.includes('study')) {
-      setTimeout(() => window.location.href = '/bible-study.html', 2000);
+      setTimeout(() => window.location.href = 'bible-study.html', 2000);
       return responses[lang].studies;
     }
     if (message.includes('oracion') || message.includes('prayer')) {
-      setTimeout(() => window.location.href = '/prayers.html', 2000);
+      setTimeout(() => window.location.href = 'prayers.html', 2000);
       return responses[lang].prayers;
     }
     if (message.includes('evento') || message.includes('event') || message.includes('calendario') || message.includes('calendar')) {
-      setTimeout(() => window.location.href = '/events.html', 2000);
+      setTimeout(() => window.location.href = 'events.html', 2000);
       return responses[lang].events;
     }
 
