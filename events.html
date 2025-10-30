@@ -141,7 +141,7 @@
             </div>
           </div>
           <div class="header-actions">
-            <a href="/" class="home-btn">
+            <a href="index.html" class="home-btn">
               <span>Inicio</span>
             </a>
           </div>
@@ -269,9 +269,13 @@
       }
 
       function logoutAdmin() {
+        console.log('Logout clicked'); // Debug
         localStorage.removeItem('ministry_admin_auth');
         document.getElementById('adminLogin').style.display = 'block';
         document.getElementById('addEventSection').style.display = 'none';
+        // Limpiar password field
+        document.getElementById('adminPassword').value = '';
+        console.log('Logout completed'); // Debug
       }
 
       function openEventModal() {
@@ -390,6 +394,8 @@
 
       // Cargar al inicio
       loadEvents();
+      // Limpiar sesión previa para asegurar que empiece sin autenticación
+      localStorage.removeItem('ministry_admin_auth');
       checkAuth(); // Verificar autenticación al cargar
     </script>
   </body>
