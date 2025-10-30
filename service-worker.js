@@ -5,13 +5,13 @@ const DYNAMIC_CACHE = 'ministerio-ai-dynamic-v1';
 
 // Archivos esenciales para cachear
 const STATIC_FILES = [
-  '/',
-  '/index.html',
-  '/sermons.html',
-  '/devotionals.html',
-  '/bible-study.html',
-  '/prayers.html',
-  '/events.html',
+  './',
+  './index.html',
+  './sermons.html',
+  './devotionals.html',
+  './bible-study.html',
+  './prayers.html',
+  './events.html',
   '/styles.css',
   '/script-enhanced.js',
   '/openai-config.js',
@@ -93,7 +93,7 @@ self.addEventListener('fetch', (event) => {
           
           // Si tampoco está en cache, devolver página offline si es navegación
           if (request.mode === 'navigate') {
-            return caches.match('/index.html');
+            return caches.match('./index.html');
           }
           
           return new Response('Sin conexión', {
@@ -128,8 +128,8 @@ self.addEventListener('push', (event) => {
   
   const options = {
     body: event.data ? event.data.text() : 'Nueva actualización del Ministerio',
-    icon: '/icon-192.png',
-    badge: '/icon-192.png',
+    icon: './icon-192.png',
+    badge: './icon-192.png',
     vibrate: [200, 100, 200],
     data: {
       dateOfArrival: Date.now(),
@@ -149,6 +149,6 @@ self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   
   event.waitUntil(
-    clients.openWindow('/')
+    clients.openWindow('./')
   );
 });
