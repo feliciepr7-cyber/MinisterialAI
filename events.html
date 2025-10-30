@@ -159,6 +159,51 @@
           <a href="events.html">Eventos</a>
         </div>
 
+        <!-- Sistema de autenticación administrativa -->
+        <div id="adminLogin" class="admin-login" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 2rem; max-width: 400px; margin-left: auto; margin-right: auto; text-align: center;">
+          <h3 style="color: #667eea; margin-bottom: 1rem;">🔐 Acceso Administrativo</h3>
+          <p style="color: #666; margin-bottom: 1rem;">Solo personal autorizado puede agregar eventos</p>
+          <input type="password" id="adminPassword" placeholder="Contraseña administrativa" style="width: 100%; padding: 0.75rem; margin: 0.5rem 0; border: 1px solid #ddd; border-radius: 8px; font-family: 'Inter', sans-serif;">
+          <button onclick="authenticateAdmin()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem 2rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 1rem; width: 100%;">Ingresar</button>
+          <p id="loginError" style="color: #dc3545; margin-top: 0.5rem; display: none;">Contraseña incorrecta</p>
+        </div>
+
+        <!-- Sección de agregar eventos (visible solo después del login) -->
+        <div id="addEventSection" class="add-event-section" style="display: none; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 2rem; text-align: center;">
+          <h3 style="color: #28a745; margin-bottom: 1rem;">✅ Acceso Autorizado</h3>
+          <button class="add-event-btn" onclick="openEventModal()" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 1rem 2rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin: 0.5rem;">➕ Agregar Nuevo Evento</button>
+          <button onclick="logoutAdmin()" style="background: #dc3545; color: white; padding: 1rem 2rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin: 0.5rem;">Cerrar Sesión</button>
+        </div>
+
+        <!-- Modal para agregar eventos -->
+        <div id="eventModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+          <div style="background: white; padding: 2rem; border-radius: 12px; max-width: 500px; width: 90%; max-height: 80%; overflow-y: auto;">
+            <h3 style="text-align: center; margin-bottom: 1rem;">Agregar Nuevo Evento</h3>
+            <form id="addEventForm">
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Título del Evento:</label>
+                <input type="text" id="eventTitle" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px;">
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Fecha y Hora:</label>
+                <input type="datetime-local" id="eventDateTime" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px;">
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Descripción:</label>
+                <textarea id="eventDescription" rows="3" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; resize: vertical;"></textarea>
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Ubicación:</label>
+                <input type="text" id="eventLocation" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px;">
+              </div>
+              <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                <button type="button" onclick="closeEventModal()" style="background: #6c757d; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer;">Cancelar</button>
+                <button type="submit" style="background: #28a745; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer;">Agregar Evento</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
         <div class="regular-services">
           <h2>Servicios Regulares</h2>
           <div class="service-grid">
@@ -195,6 +240,48 @@
       import { getMinistryEvents } from './supabase-client.js';
 
       const eventList = document.getElementById('eventList');
+
+      // Sistema de autenticación
+      const ADMIN_PASSWORD = 'ministerial2025';
+
+      function checkAuth() {
+        const isAuthenticated = localStorage.getItem('ministry_admin_auth') === 'true';
+        if (isAuthenticated) {
+          document.getElementById('adminLogin').style.display = 'none';
+          document.getElementById('addEventSection').style.display = 'block';
+        }
+      }
+
+      function authenticateAdmin() {
+        const password = document.getElementById('adminPassword').value;
+        const loginError = document.getElementById('loginError');
+        
+        if (password === ADMIN_PASSWORD) {
+          localStorage.setItem('ministry_admin_auth', 'true');
+          document.getElementById('adminLogin').style.display = 'none';
+          document.getElementById('addEventSection').style.display = 'block';
+          document.getElementById('adminPassword').value = '';
+          loginError.style.display = 'none';
+        } else {
+          loginError.style.display = 'block';
+          loginError.textContent = 'Contraseña incorrecta';
+        }
+      }
+
+      function logoutAdmin() {
+        localStorage.removeItem('ministry_admin_auth');
+        document.getElementById('adminLogin').style.display = 'block';
+        document.getElementById('addEventSection').style.display = 'none';
+      }
+
+      function openEventModal() {
+        document.getElementById('eventModal').style.display = 'flex';
+      }
+
+      function closeEventModal() {
+        document.getElementById('eventModal').style.display = 'none';
+        document.getElementById('addEventForm').reset();
+      }
 
       // Cargar eventos
       async function loadEvents() {
@@ -259,8 +346,51 @@
         }
       }
 
+      // Event listeners
+      document.getElementById('adminPassword')?.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          authenticateAdmin();
+        }
+      });
+
+      document.getElementById('addEventForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const title = document.getElementById('eventTitle').value;
+        const dateTime = document.getElementById('eventDateTime').value;
+        const description = document.getElementById('eventDescription').value;
+        const location = document.getElementById('eventLocation').value;
+        
+        if (!title || !dateTime) {
+          alert('Por favor completa el título y la fecha del evento');
+          return;
+        }
+        
+        // Crear evento
+        const newEvent = {
+          title: title,
+          event_date: dateTime,
+          description: description,
+          location: location,
+          event_type: 'event'
+        };
+        
+        try {
+          const { addMinistryEvent } = await import('./supabase-client.js');
+          await addMinistryEvent(newEvent);
+          
+          alert('¡Evento agregado exitosamente!');
+          closeEventModal();
+          loadEvents(); // Recargar la lista
+        } catch (error) {
+          console.error('Error agregando evento:', error);
+          alert('Error al agregar el evento. Intenta nuevamente.');
+        }
+      });
+
       // Cargar al inicio
       loadEvents();
+      checkAuth(); // Verificar autenticación al cargar
     </script>
   </body>
 </html>
