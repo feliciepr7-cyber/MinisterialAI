@@ -138,8 +138,8 @@ class MinisterialAIEnhanced {
   get translations() {
     return {
       welcome: {
-        es: "¡Hola! Soy Ministerio AI, tu asistente del ministerio. ¿En qué puedo ayudarte hoy?",
-        en: "Hello! I'm Ministerio AI, your ministry assistant. How can I help you today?"
+        es: "¡Hola! Soy El Agente AI del Ministerio del Pastor Frankie Felicie. ¿En qué puedo ayudarte hoy?",
+        en: "Hello! I'm The AI Agent of Pastor Frankie Felicie's Ministry. How can I help you today?"
       },
       ministryInfo: {
         es: "Aquí tienes la información del ministerio:",
