@@ -269,23 +269,32 @@
       }
 
       function logoutAdmin() {
-        console.log('Logout clicked'); // Debug
+        console.log('Logout clicked - User trying to logout'); // Debug
+        console.log('Current auth status:', localStorage.getItem('ministry_admin_auth')); // Debug
         localStorage.removeItem('ministry_admin_auth');
         document.getElementById('adminLogin').style.display = 'block';
         document.getElementById('addEventSection').style.display = 'none';
         // Limpiar password field
         document.getElementById('adminPassword').value = '';
-        console.log('Logout completed'); // Debug
+        console.log('Logout completed - Session cleared'); // Debug
       }
 
       function openEventModal() {
+        console.log('Open event modal clicked'); // Debug
         document.getElementById('eventModal').style.display = 'flex';
+        console.log('Modal should now be visible'); // Debug
       }
 
       function closeEventModal() {
         document.getElementById('eventModal').style.display = 'none';
         document.getElementById('addEventForm').reset();
       }
+
+      // Make functions globally available
+      window.authenticateAdmin = authenticateAdmin;
+      window.logoutAdmin = logoutAdmin;
+      window.openEventModal = openEventModal;
+      window.closeEventModal = closeEventModal;
 
       // Cargar eventos
       async function loadEvents() {
@@ -389,6 +398,38 @@
         } catch (error) {
           console.error('Error agregando evento:', error);
           alert('Error al agregar el evento. Intenta nuevamente.');
+        }
+      });
+
+      // Event listeners adicionales como respaldo
+      document.addEventListener('DOMContentLoaded', function() {
+        // Backup event listeners para botones principales
+        const addEventBtn = document.querySelector('.add-event-btn');
+        const logoutBtn = document.querySelector('button[onclick="logoutAdmin()"]');
+        const cancelBtn = document.querySelector('button[type="button"][onclick="closeEventModal()"]');
+        
+        if (addEventBtn) {
+          addEventBtn.addEventListener('click', function(e) {
+            console.log('Add event button clicked via event listener');
+            e.preventDefault();
+            openEventModal();
+          });
+        }
+        
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', function(e) {
+            console.log('Logout button clicked via event listener');
+            e.preventDefault();
+            logoutAdmin();
+          });
+        }
+        
+        if (cancelBtn) {
+          cancelBtn.addEventListener('click', function(e) {
+            console.log('Cancel button clicked via event listener');
+            e.preventDefault();
+            closeEventModal();
+          });
         }
       });
 
