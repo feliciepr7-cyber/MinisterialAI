@@ -127,116 +127,6 @@
         padding: 3rem;
         color: #999;
       }
-      .add-event-section {
-        background: white;
-        padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        margin-bottom: 2rem;
-        text-align: center;
-      }
-      .add-event-btn {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        padding: 1rem 2rem;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        font-size: 1rem;
-        margin-bottom: 1rem;
-      }
-      .admin-login {
-        background: #f8f9fa;
-        padding: 2rem;
-        border-radius: 12px;
-        text-align: center;
-        margin-bottom: 2rem;
-      }
-      .admin-login input {
-        width: 100%;
-        max-width: 300px;
-        padding: 0.75rem;
-        margin: 0.5rem;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        font-size: 1rem;
-      }
-      .admin-login button {
-        background: #28a745;
-        color: white;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-        margin-top: 0.5rem;
-      }
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.5);
-      }
-      .modal-content {
-        background-color: white;
-        margin: 5% auto;
-        padding: 2rem;
-        border-radius: 12px;
-        width: 90%;
-        max-width: 600px;
-        position: relative;
-      }
-      .close {
-        position: absolute;
-        right: 1rem;
-        top: 1rem;
-        font-size: 2rem;
-        cursor: pointer;
-        color: #999;
-      }
-      .form-group {
-        margin-bottom: 1.5rem;
-        text-align: left;
-      }
-      .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-        color: #333;
-      }
-      .form-group input, .form-group select, .form-group textarea {
-        width: 100%;
-        padding: 0.75rem;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        font-family: 'Inter', sans-serif;
-        font-size: 1rem;
-      }
-      .form-group textarea {
-        resize: vertical;
-        min-height: 100px;
-      }
-      .success-message {
-        background: #d4edda;
-        color: #155724;
-        padding: 1rem;
-        border-radius: 8px;
-        margin-bottom: 1rem;
-        border: 1px solid #c3e6cb;
-      }
-      .error-message {
-        background: #f8d7da;
-        color: #721c24;
-        padding: 1rem;
-        border-radius: 8px;
-        margin-bottom: 1rem;
-        border: 1px solid #f5c6cb;
-      }
     </style>
   </head>
   <body>
@@ -251,7 +141,7 @@
             </div>
           </div>
           <div class="header-actions">
-            <a href="./index.html" class="home-btn">
+            <a href="/" class="home-btn">
               <span>Inicio</span>
             </a>
           </div>
@@ -262,69 +152,11 @@
     <div class="main-container">
       <div class="container">
         <div class="nav-links">
-          <a href="./sermons.html">Sermones</a>
-          <a href="./devotionals.html">Devocionales</a>
-          <a href="./bible-study.html">Estudios</a>
-          <a href="./prayers.html">Oraciones</a>
-          <a href="./events.html">Eventos</a>
-        </div>
-
-        <!-- Sistema de autenticación -->
-        <div id="adminLogin" class="admin-login">
-          <h3 style="color: #667eea; margin-bottom: 1rem;">🔐 Acceso Administrativo</h3>
-          <p style="color: #666; margin-bottom: 1rem;">Solo personal autorizado puede agregar eventos</p>
-          <input type="password" id="adminPassword" placeholder="Contraseña administrativa" style="margin-bottom: 0.5rem;">
-          <button onclick="authenticateAdmin()">Ingresar</button>
-          <p id="loginError" style="color: #dc3545; margin-top: 0.5rem; display: none;">Contraseña incorrecta</p>
-        </div>
-
-        <!-- Sección para agregar eventos (oculta hasta autenticación) -->
-        <div id="addEventSection" class="add-event-section" style="display: none;">
-          <h3 style="color: #28a745; margin-bottom: 1rem;">✅ Acceso Autorizado</h3>
-          <button class="add-event-btn" onclick="openEventModal()">➕ Agregar Nuevo Evento</button>
-          <p style="color: #666; margin-top: 1rem;">Añade eventos especiales, conferencias, o actividades del ministerio</p>
-          <button onclick="logoutAdmin()" style="background: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; margin-top: 1rem; cursor: pointer;">Cerrar Sesión</button>
-        </div>
-
-        <!-- Modal para agregar evento -->
-        <div id="eventModal" class="modal">
-          <div class="modal-content">
-            <span class="close" onclick="closeEventModal()">&times;</span>
-            <h2 style="text-align: center; color: #667eea;">Agregar Nuevo Evento</h2>
-            <div id="eventMessage"></div>
-            <form id="eventForm">
-              <div class="form-group">
-                <label for="eventTitle">Título del Evento *</label>
-                <input type="text" id="eventTitle" placeholder="ej: Conferencia de Jóvenes" required>
-              </div>
-              <div class="form-group">
-                <label for="eventDescription">Descripción</label>
-                <textarea id="eventDescription" placeholder="Detalles adicionales del evento (opcional)"></textarea>
-              </div>
-              <div class="form-group">
-                <label for="eventDate">Fecha y Hora *</label>
-                <input type="datetime-local" id="eventDate" required>
-              </div>
-              <div class="form-group">
-                <label for="eventType">Tipo de Evento *</label>
-                <select id="eventType" required>
-                  <option value="">Seleccionar tipo...</option>
-                  <option value="service">Servicio Regular</option>
-                  <option value="study">Estudio Bíblico</option>
-                  <option value="prayer">Reunión de Oración</option>
-                  <option value="special">Evento Especial</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="eventLocation">Lugar</label>
-                <input type="text" id="eventLocation" placeholder="ej: Sanctuario Principal, Salón de Eventos">
-              </div>
-              <div style="text-align: center; margin-top: 2rem;">
-                <button type="button" onclick="closeEventModal()" style="background: #f0f0f0; color: #333; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; margin-right: 1rem; cursor: pointer;">Cancelar</button>
-                <button type="submit" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer;">Guardar Evento</button>
-              </div>
-            </form>
-          </div>
+          <a href="/sermons.html">Sermones</a>
+          <a href="/devotionals.html">Devocionales</a>
+          <a href="/bible-study.html">Estudios</a>
+          <a href="/prayers.html">Oraciones</a>
+          <a href="/events.html">Eventos</a>
         </div>
 
         <div class="regular-services">
@@ -426,128 +258,6 @@
           `;
         }
       }
-
-      // Abrir modal para agregar evento
-      window.openEventModal = function() {
-        document.getElementById('eventModal').style.display = 'block';
-        document.getElementById('eventMessage').innerHTML = '';
-      };
-
-      // Cerrar modal
-      window.closeEventModal = function() {
-        document.getElementById('eventModal').style.display = 'none';
-        document.getElementById('eventForm').reset();
-        document.getElementById('eventMessage').innerHTML = '';
-      };
-
-      // Cerrar modal al hacer clic fuera de él
-      window.onclick = function(event) {
-        const modal = document.getElementById('eventModal');
-        if (event.target === modal) {
-          closeEventModal();
-        }
-      };
-
-      // Manejar envío del formulario
-      document.getElementById('eventForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const title = document.getElementById('eventTitle').value.trim();
-        const description = document.getElementById('eventDescription').value.trim();
-        const dateTime = document.getElementById('eventDate').value;
-        const eventType = document.getElementById('eventType').value;
-        const location = document.getElementById('eventLocation').value.trim();
-        
-        if (!title || !dateTime || !eventType) {
-          showMessage('Por favor completa todos los campos requeridos', 'error');
-          return;
-        }
-
-        try {
-          const eventDate = new Date(dateTime);
-          const isoString = eventDate.toISOString();
-          
-          const { supabase } = await import('./supabase-client.js');
-          const { error } = await supabase
-            .from('ministry_events')
-            .insert([{
-              title: title,
-              description: description || null,
-              event_date: isoString,
-              event_type: eventType,
-              location: location || null
-            }]);
-
-          if (error) throw error;
-
-          showMessage('¡Evento agregado exitosamente!', 'success');
-          
-          setTimeout(() => {
-            closeEventModal();
-            loadEvents(); // Recargar la lista de eventos
-          }, 1500);
-
-        } catch (error) {
-          console.error('Error agregando evento:', error);
-          showMessage('Error al agregar el evento. Por favor inténtalo de nuevo.', 'error');
-        }
-      });
-
-      function showMessage(message, type) {
-        const messageDiv = document.getElementById('eventMessage');
-        messageDiv.innerHTML = `<div class="${type}-message">${message}</div>`;
-      }
-
-      // Sistema de autenticación
-      const ADMIN_PASSWORD = 'ministerial2025'; // Cambiar esta contraseña
-
-      function authenticateAdmin() {
-        const passwordInput = document.getElementById('adminPassword');
-        const loginError = document.getElementById('loginError');
-        const adminLogin = document.getElementById('adminLogin');
-        const addEventSection = document.getElementById('addEventSection');
-
-        if (passwordInput.value === ADMIN_PASSWORD) {
-          // Éxito - guardar en localStorage
-          localStorage.setItem('ministry_admin_auth', 'true');
-          adminLogin.style.display = 'none';
-          addEventSection.style.display = 'block';
-          passwordInput.value = '';
-          loginError.style.display = 'none';
-        } else {
-          // Error
-          loginError.style.display = 'block';
-          passwordInput.value = '';
-          setTimeout(() => {
-            loginError.style.display = 'none';
-          }, 3000);
-        }
-      }
-
-      function logoutAdmin() {
-        localStorage.removeItem('ministry_admin_auth');
-        document.getElementById('adminLogin').style.display = 'block';
-        document.getElementById('addEventSection').style.display = 'none';
-      }
-
-      // Verificar autenticación al cargar
-      function checkAuth() {
-        const isAuthenticated = localStorage.getItem('ministry_admin_auth') === 'true';
-        if (isAuthenticated) {
-          document.getElementById('adminLogin').style.display = 'none';
-          document.getElementById('addEventSection').style.display = 'block';
-        }
-      }
-
-      // Permitir login con Enter
-      document.getElementById('adminPassword')?.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          authenticateAdmin();
-        }
-      });
-
-      // Verificar autenticación al cargar la página
-      checkAuth();
 
       // Cargar al inicio
       loadEvents();

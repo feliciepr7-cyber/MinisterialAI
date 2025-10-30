@@ -34,21 +34,21 @@
       "name": "Generador de Sermones",
       "short_name": "Sermones",
       "description": "Genera sermones inspiradores con IA",
-      "url": "./sermons.html",
+      "url": "/sermons.html",
       "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Devocional del Día",
       "short_name": "Devocional",
       "description": "Lee el devocional de hoy",
-      "url": "./devotionals.html",
+      "url": "/devotionals.html",
       "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Biblioteca de Oraciones",
       "short_name": "Oraciones",
       "description": "Encuentra oraciones para cada situación",
-      "url": "./prayers.html",
+      "url": "/prayers.html",
       "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     }
   ]
